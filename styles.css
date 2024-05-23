@@ -1,39 +1,49 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: black;
-    color: white;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #E0E0E0;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: black;
-    border-bottom: 1px solid #333;
+    padding: 20px 40px;
+    background-color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
 }
 
 .logo {
-    font-size: 24px;
-    color: green;
+    font-size: 26px;
+    color: #00FF00;
+    font-weight: bold;
 }
 
 .auth {
     display: flex;
-    gap: 10px;
+    gap: 15px;
 }
 
 .auth-button {
-    background-color: #333;
-    color: white;
-    border: 1px solid green;
+    background-color: transparent;
+    color: #00FF00;
+    border: 1px solid #00FF00;
     padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .auth-button:hover {
-    background-color: green;
+    background-color: #00FF00;
+    color: black;
+    border-color: #00CC00;
 }
 
 .landing-page, .game-info-page {
@@ -43,38 +53,51 @@ header {
     justify-content: center;
     height: 100vh;
     text-align: center;
+    padding-top: 80px; /* Adjust for fixed header */
 }
 
 .statistic {
-    font-size: 36px;
-    margin-bottom: 20px;
+    font-size: 48px;
+    margin-bottom: 40px;
     animation: fadeIn 3s ease-in-out;
+    color: #FF5722;
+    max-width: 80%;
+    line-height: 1.5;
 }
 
 .next-button, .start-game-button, .back-button {
-    background-color: green;
-    color: white;
+    background-color: #00FF00;
+    color: black;
     border: none;
     padding: 15px 30px;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
+    border-radius: 5px;
     margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
 .next-button:hover, .start-game-button:hover, .back-button:hover {
-    background-color: darkgreen;
+    background-color: #00CC00;
 }
 
 .game-info {
     max-width: 600px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .game-info h1 {
-    color: blue;
+    color: #00FF00;
+    margin-bottom: 20px;
 }
 
 .game-info ul {
     text-align: left;
+    margin: 20px 0;
 }
 
 /* Fade-in effect */
