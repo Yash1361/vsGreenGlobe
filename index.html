@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenGlobe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">GreenGlobe</div>
+        <div class="auth">
+            <button class="auth-button" onclick="showLogin()">Login</button>
+            <button class="auth-button" onclick="showSignup()">Signup</button>
+        </div>
+    </header>
+    
+    <div class="landing-page" id="landingPage">
+        <div class="statistic fade-in">
+            Air quality is deteriorating rapidly, affecting millions of lives every day.
+        </div>
+        <button class="next-button" onclick="showGameInfo()">Next</button>
+    </div>
+    
+    <div class="game-info-page" id="gameInfoPage" style="display: none;">
+        <div class="game-info">
+            <h1>About the Game</h1>
+            <p>
+                In this game, we will show you the top 10 worst cities based on air quality index (AQI). You will be given a budget and can take actions such as:
+                <ul>
+                    <li>Plant windmills</li>
+                    <li>Install solar panels</li>
+                    <li>Shut down factories</li>
+                    <li>Implement policies</li>
+                </ul>
+                Our AI will calculate the effects of your actions on the AQI, including any negative repercussions. Your goal is to improve the air quality as much as possible within the given budget.
+            </p>
+            <button class="start-game-button" onclick="startGame()">Start Game</button>
+            <button class="back-button" onclick="showLandingPage()">Go Back</button>
+        </div>
+    </div>
+    
+    <script src="scripts.js"></script>
+</body>
+</html>

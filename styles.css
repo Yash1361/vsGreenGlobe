@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+    color: white;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: black;
+    border-bottom: 1px solid #333;
+}
+
+.logo {
+    font-size: 24px;
+    color: green;
+}
+
+.auth {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-button {
+    background-color: #333;
+    color: white;
+    border: 1px solid green;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.auth-button:hover {
+    background-color: green;
+}
+
+.landing-page, .game-info-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.statistic {
+    font-size: 36px;
+    margin-bottom: 20px;
+    animation: fadeIn 3s ease-in-out;
+}
+
+.next-button, .start-game-button, .back-button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.next-button:hover, .start-game-button:hover, .back-button:hover {
+    background-color: darkgreen;
+}
+
+.game-info {
+    max-width: 600px;
+}
+
+.game-info h1 {
+    color: blue;
+}
+
+.game-info ul {
+    text-align: left;
+}
+
+/* Fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 3s ease-in-out;
+}
