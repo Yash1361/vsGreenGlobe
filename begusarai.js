@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Define high AQI areas for the heatmap with higher intensity for darker color
     var heatData = [
-        [25.420, 86.130, 5], // [lat, lon, intensity]
-        [25.415, 86.135, 5],
-        [25.418, 86.125, 5]
+        [25.420, 86.130, 4], // [lat, lon, intensity]
+        [25.415, 86.135, 5.6],
+        [25.418, 86.125, 7]
     ];
 
     // Create a heatmap layer with adjusted options
@@ -35,11 +35,39 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     // Add a polygon to outline the city borders
-    L.polygon(cityBorders, {
+    var cityPolygon = L.polygon(cityBorders, {
         color: 'yellow',
         weight: 2
     }).addTo(map);
 
+    // Define the map bounds for the mask
+    var mapBounds = [
+        [-90, -180],
+        [90, 180]
+    ];
+
+    // Create a mask layer
+    var maskLayer = L.layerGroup();
+
+    // Create the inverted polygon for the mask
+    var outerBounds = [
+        [-90, -180],
+        [90, -180],
+        [90, 180],
+        [-90, 180]
+    ];
+
+    var maskPolygon = L.polygon([outerBounds, cityBorders], {
+        color: 'black',
+        fillColor: 'black',
+        fillOpacity: 0.5,
+        opacity: 0
+    }).addTo(maskLayer);
+
+    // Add the mask layer to the map
+    maskLayer.addTo(map);
+
+    // Budget management
     var budget = 10000;
 
     function updateBudget() {
