@@ -83,21 +83,41 @@ header {
 }
 
 .game-info {
-    max-width: 600px;
+    max-width: 800px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 30px;
+    padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    text-align: left;
+    animation: fadeIn 3s ease-in-out;
 }
 
-.game-info h1 {
+.game-info .title {
     color: #00FF00;
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.game-info .description {
+    font-size: 18px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.game-info .actions {
+    margin-left: 20px;
     margin-bottom: 20px;
 }
 
-.game-info ul {
-    text-align: left;
-    margin: 20px 0;
+.game-info .actions li {
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
 }
 
 /* Fade-in effect */
