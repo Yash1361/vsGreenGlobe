@@ -1,61 +1,79 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const windmillSlider = document.getElementById('windmills');
-    const solarSlider = document.getElementById('solar-panels');
-    const factorySlider = document.getElementById('factories');
-    const policySlider = document.getElementById('policies');
-    const budgetDisplay = document.getElementById('budget');
-
-    const windmillCount = document.getElementById('windmill-count');
-    const solarCount = document.getElementById('solar-count');
-    const factoryCount = document.getElementById('factory-count');
-    const policyCount = document.getElementById('policy-count');
-
-    let budget = 10000;
-
-    const updateBudget = () => {
-        const totalSpent = windmillSlider.valueAsNumber + solarSlider.valueAsNumber + factorySlider.valueAsNumber + policySlider.valueAsNumber;
-        budgetDisplay.textContent = `$${(budget - totalSpent).toFixed(2)}`;
-    };
-
-    const updateCounts = () => {
-        windmillCount.textContent = windmillSlider.value;
-        solarCount.textContent = solarSlider.value;
-        factoryCount.textContent = factorySlider.value;
-        policyCount.textContent = policySlider.value;
-    };
-
-    windmillSlider.addEventListener('input', () => {
-        updateBudget();
-        updateCounts();
-    });
-
-    solarSlider.addEventListener('input', () => {
-        updateBudget();
-        updateCounts();
-    });
-
-    factorySlider.addEventListener('input', () => {
-        updateBudget();
-        updateCounts();
-    });
-
-    policySlider.addEventListener('input', () => {
-        updateBudget();
-        updateCounts();
-    });
-
+document.addEventListener("DOMContentLoaded", function () {
     // Initialize the map
-    const map = L.map('map').setView([25.4174, 86.1292], 12);
+    var map = L.map('map').setView([25.417, 86.129], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Add red cloud overlay (simplified example)
-    const redCloudOverlay = L.circle([25.4174, 86.1292], {
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.5,
-        radius: 1000
+    // Define high AQI areas for the heatmap
+    var heatData = [
+        [25.420, 86.130, 0.8], // [lat, lon, intensity]
+        [25.415, 86.135, 0.9],
+        [25.418, 86.125, 0.7]
+    ];
+
+    // Create a heatmap layer
+    var heat = L.heatLayer(heatData, {
+        radius: 25,
+        blur: 15,
+        maxZoom: 17,
+        gradient: {
+            0.4: 'blue',
+            0.65: 'lime',
+            1: 'red'
+        }
     }).addTo(map);
+
+    // Optional: Add a marker or polygon to outline the city borders
+    var cityBorders = [
+        [25.423, 86.123],
+        [25.427, 86.133],
+        [25.417, 86.140],
+        [25.407, 86.135],
+        [25.413, 86.125]
+    ];
+
+    L.polygon(cityBorders, {
+        color: 'yellow',
+        weight: 2
+    }).addTo(map);
+
+    var budget = 10000;
+
+    function updateBudget() {
+        document.getElementById('budget').textContent = `$${budget}`;
+    }
+
+    function updateActionCount(id, count) {
+        document.getElementById(id).textContent = count;
+    }
+
+    function handleRangeChange(event, actionCost) {
+        var count = event.target.value;
+        var actionId = event.target.id;
+        var totalCost = count * actionCost;
+
+        budget = 10000 - totalCost;
+        updateBudget();
+        updateActionCount(actionId + '-count', count);
+    }
+
+    document.getElementById('windmills').addEventListener('input', function (event) {
+        handleRangeChange(event, 100);
+    });
+
+    document.getElementById('solar-panels').addEventListener('input', function (event) {
+        handleRangeChange(event, 150);
+    });
+
+    document.getElementById('factories').addEventListener('input', function (event) {
+        handleRangeChange(event, 200);
+    });
+
+    document.getElementById('policies').addEventListener('input', function (event) {
+        handleRangeChange(event, 50);
+    });
+
+    updateBudget();
 });
