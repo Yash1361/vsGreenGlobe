@@ -6,14 +6,14 @@ document.addEventListener("DOMContentLoaded", function () {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Define high AQI areas for the heatmap
+    // Define high AQI areas for the heatmap with higher intensity for darker color
     var heatData = [
-        [25.420, 86.130, 0.8], // [lat, lon, intensity]
-        [25.415, 86.135, 0.9],
-        [25.418, 86.125, 0.7]
+        [25.420, 86.130, 5], // [lat, lon, intensity]
+        [25.415, 86.135, 5],
+        [25.418, 86.125, 5]
     ];
 
-    // Create a heatmap layer
+    // Create a heatmap layer with adjusted options
     var heat = L.heatLayer(heatData, {
         radius: 25,
         blur: 15,
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }).addTo(map);
 
-    // Optional: Add a marker or polygon to outline the city borders
+    // Define the city borders
     var cityBorders = [
         [25.423, 86.123],
         [25.427, 86.133],
@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         [25.413, 86.125]
     ];
 
+    // Add a polygon to outline the city borders
     L.polygon(cityBorders, {
         color: 'yellow',
         weight: 2
