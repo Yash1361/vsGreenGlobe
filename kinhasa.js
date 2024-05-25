@@ -75,10 +75,10 @@ var heatlayer = new maptalks.HeatLayer('heat', data, {
 console.log("Heat layer added:", heatlayer);
 
 // Add a recenter button
-document.querySelector('.button-container').innerHTML += '<button class="icon-button" id="recenter-button"><i class="fas fa-crosshairs"></i></button>';
+document.querySelector('.button-container').innerHTML += '<button class="recenter-button">Recenter Map</button>';
 
 // Recenter map function
-document.getElementById('recenter-button').addEventListener('click', function() {
+document.querySelector('.recenter-button').addEventListener('click', function() {
     map.setCenter([15.2663, -4.4419]);
-    map.setZoom(14.2);
+    map.setZoom(14.1);
 });
