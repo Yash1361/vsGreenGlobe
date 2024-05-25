@@ -147,17 +147,18 @@ body, html {
 
 .center {
     width: 50%;
-    height: 100vh;
-    padding: 30px 20px; 
+    height: 100vh; 
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center;    /* Center horizontally */
 }
 
 #mapCanvas { 
-    width: 100%;
-    height: 84%; 
     border: none; 
     border-radius: 0; 
+    max-width: 75%;  /* Ensure the canvas doesn't overflow the container */
+    max-height: 84.2%;
 }
 
 .right {
@@ -190,7 +191,7 @@ body, html {
     background-color: #282633;
     border: 1px solid #333; 
     border-radius: 8px; 
-    width: 100%;
+    width: 90%;
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     justify-content: space-between;
