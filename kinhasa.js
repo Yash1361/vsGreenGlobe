@@ -83,3 +83,56 @@ document.querySelector('.recenter-button').addEventListener('click', function() 
     map.setCenter([15.2663, -4.4419]);
     map.setZoom(14.1);
 });
+
+// Initial values
+let budget = 10000;
+let aqi = 180;
+
+// Previous values of sliders
+let prevValues = {
+    wind: 0,
+    solar: 0,
+    factory: 0
+};
+
+// Function to update budget and AQI
+function updateInfo(type, newValue) {
+    const budgetElement = document.querySelector('.info-container .info:nth-child(1)');
+    const aqiElement = document.querySelector('.info-container .info:nth-child(2)');
+
+    const budgetDecrease = { wind: 100, solar: 150, factory: 200 };
+    const aqiDecrease = { wind: 1, solar: 2, factory: 3 };
+
+    // Calculate the difference
+    const diff = newValue - prevValues[type];
+
+    // Update budget and AQI based on the difference
+    budget -= budgetDecrease[type] * diff;
+    aqi -= aqiDecrease[type] * diff;
+
+    // Update the previous value
+    prevValues[type] = newValue;
+
+    // Update the UI
+    budgetElement.innerHTML = `<span class="info-title">Budget:</span> $${budget}`;
+    aqiElement.innerHTML = `<span class="info-title">AQI:</span> ${aqi}`;
+}
+
+// Slider event listeners
+document.getElementById('wind-slider').addEventListener('input', function() {
+    const value = parseInt(this.value, 10);
+    document.getElementById('wind-value').textContent = `(${value})`;
+    updateInfo('wind', value);
+});
+
+document.getElementById('solar-slider').addEventListener('input', function() {
+    const value = parseInt(this.value, 10);
+    document.getElementById('solar-value').textContent = `(${value})`;
+    updateInfo('solar', value);
+});
+
+document.getElementById('factory-slider').addEventListener('input', function() {
+    const value = parseInt(this.value, 10);
+    document.getElementById('factory-value').textContent = `(${value})`;
+    updateInfo('factory', value);
+});

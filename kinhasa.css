@@ -51,7 +51,7 @@ body, html {
     color: #ffffff;
     text-align: center;
     width: 100%;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #00c4ff;
     padding-bottom: 10px;
     text-transform: uppercase;
     animation: slideIn 0.5s ease-in-out;
@@ -72,7 +72,7 @@ body, html {
     align-items: center;
     justify-content: center;
     font-size: 2em;
-    background-color: #007bff;
+    background-color: #00c4ff;
     color: white;
     border: none;
     border-radius: 50%;
@@ -82,19 +82,64 @@ body, html {
 }
 
 .icon-button:hover {
-    background-color: #0056b3;
+    background-color: #008bb3;
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 91, 187, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 139, 179, 0.5);
 }
 
 .icon-button i {
     margin-right: 0;
 }
 
+.slider {
+    width: 80%;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    background: #333;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #00c4ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background-color: #008bb3;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #00c4ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider::-moz-range-thumb:hover {
+    background-color: #008bb3;
+}
+
 .recenter-button {
     width: 200px;
     height: 50px;
-    background-color: #007bff;
+    background-color: #00c4ff;
     color: white;
     border: none;
     font-size: 20px;
@@ -107,9 +152,9 @@ body, html {
 }
 
 .recenter-button:hover {
-    background-color: #0056b3;
+    background-color: #008bb3;
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 91, 187, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 139, 179, 0.5);
 }
 
 .info-container {
@@ -125,7 +170,7 @@ body, html {
     margin: 15px 0;
     color: #ffffff;
     padding: 15px 25px;
-    background-color: #282828;
+    background: linear-gradient(145deg, #3a3a3a, #282828);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -138,7 +183,7 @@ body, html {
 
 .info-title {
     font-weight: bold;
-    color: #ffffff;
+    color: #00c4ff;
 }
 
 @media (max-width: 768px) {
