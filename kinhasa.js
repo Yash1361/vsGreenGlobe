@@ -1,6 +1,6 @@
 var map = new maptalks.Map('map', {
     center: [15.2663, -4.4419], // Coordinates for Kinshasa
-    zoom: 14,
+    zoom: 14.1,
     minZoom: 14, // Minimum zoom level
     centerCross: true,
     baseLayer: new maptalks.TileLayer('base', {

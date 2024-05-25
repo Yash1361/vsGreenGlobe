@@ -4,7 +4,8 @@ body, html {
     width: 100%;
     display: flex;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #eef2f7;
+    background-color: #121212;
+    color: #ffffff;
   }
   
   .left, .right {
@@ -15,10 +16,10 @@ body, html {
     justify-content: flex-start;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #ffffff;
-    border-right: 1px solid #ddd;
-    border-left: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1e1e1e;
+    border-right: 1px solid #333;
+    border-left: 1px solid #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
   
   .center {
@@ -29,8 +30,8 @@ body, html {
     justify-content: flex-start;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
   
   .container {
@@ -41,7 +42,7 @@ body, html {
   .header {
     font-size: 2em;
     margin-bottom: 20px;
-    color: #333;
+    color: #ffffff;
     text-align: center;
     width: 100%;
     border-bottom: 2px solid #007bff;
@@ -67,12 +68,13 @@ body, html {
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .icon-button:hover {
     background-color: #0056b3;
     transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 91, 187, 0.5);
   }
   
   .info-container {
@@ -85,11 +87,15 @@ body, html {
   .info {
     font-size: 1.4em;
     margin: 15px 0;
-    color: #555;
+    color: #ffffff;
+    padding: 10px 20px;
+    background-color: #282828;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   }
   
   .info-title {
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
   }
   
