@@ -1,74 +1,42 @@
-// Initialize the map
-var map = new maptalks.Map('map', {
-    center: [15.2663, -4.4419],
-    zoom: 14.1,
-    minZoom: 14,
-    centerCross: true,
-    dragRotate: false,
-    baseLayer: new maptalks.TileLayer('base', {
-        urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        subdomains: ['a', 'b', 'c'],
-        attribution: '&copy; OpenStreetMap contributors'
-    }),
-    layers: [new maptalks.VectorLayer('v')]
-});
+const canvas = document.getElementById('mapCanvas');
+const ctx = canvas.getContext('2d');
 
-var extent = map.getExtent();
-map.setMaxExtent(extent);
-map.setZoom(map.getZoom() - 2, { animation: false });
-map.getLayer('v').addGeometry(
-    new maptalks.Polygon(extent.toArray(), {
-        symbol: { 'polygonOpacity': 0, 'lineWidth': 5 }
-    })
-);
-map.setMinZoom(14);
+const mapImage = new Image();
+mapImage.src = 'map2.png'; // Update the path to your image
 
-var data = [
-    [15.2663, -4.4419, 10],
-    [15.2683, -4.4429, 9],
-    [15.2753, -4.4499, 4],
-    [15.2763, -4.4509, 8],
-    [15.2773, -4.4519, 9],
-    [15.2783, -4.4529, 10],
-    [15.2833, -4.4579, 9],
-    [15.2843, -4.4589, 6],
-    [15.2853, -4.4599, 7],
-    [15.2863, -4.4609, 5],
-    [15.2600, -4.4400, 8],
-    [15.2650, -4.4410, 7],
-    [15.2640, -4.4420, 9],
-    [15.2610, -4.4450, 8],
-    [15.2600, -4.4460, 7],
-    [15.2590, -4.4470, 9],
-    [15.2580, -4.4480, 6],
-    [15.2570, -4.4490, 5],
-    [15.2530, -4.4530, 6],
-    [15.2520, -4.4540, 5],
-    [15.2510, -4.4550, 8],
-    [15.2500, -4.4560, 7]
-];
+mapImage.onload = () => {
+    // Set the canvas dimensions to match the image dimensions
+    canvas.width = mapImage.width;
+    canvas.height = mapImage.height;
 
-var heatlayer = new maptalks.HeatLayer('heat', data, {
-    'heatValueScale': 7,
-    'forceRenderOnRotating': true,
-    'forceRenderOnMoving': true,
-    'forceRenderOnZooming': true,
-    'radius': 25,
-    'max': 10,
-    'blur': 20,
-    'gradient': {
-        0.0: 'blue',
-        0.5: 'lime',
-        1.0: 'red'
-    }
-}).addTo(map);
+    drawBackground();
+    drawMapWithGradientOverlay();
+};
 
-document.querySelector('.button-container').innerHTML += '<button class="recenter-button">Recenter Map</button>';
+function drawBackground() {
+    // Draw black background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
 
-document.querySelector('.recenter-button').addEventListener('click', function() {
-    map.setCenter([15.2663, -4.4419]);
-    map.setZoom(14.1);
-});
+function drawMapWithGradientOverlay() {
+    // Draw the map image first
+    ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
+
+    // Create the gradient overlay
+    const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 50, canvas.width / 2, canvas.height / 2, 300);
+    gradient.addColorStop(0, 'rgba(255, 0, 0, 0.8)'); // Dark red
+    gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.4)'); // Medium red
+    gradient.addColorStop(1, 'rgba(255, 0, 0, 0.1)'); // Light red
+
+    // Apply the gradient overlay only within the map area
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Reset the composite operation
+    ctx.globalCompositeOperation = 'source-over';
+}
 
 let budget = 10000;
 let aqi = 180;
