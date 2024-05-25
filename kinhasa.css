@@ -3,12 +3,12 @@ body, html {
     height: 100%;
     width: 100%;
     display: flex;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #121212;
     color: #ffffff;
-  }
-  
-  .left, .right {
+}
+
+.left, .right {
     width: 20%;
     display: flex;
     flex-direction: column;
@@ -20,9 +20,9 @@ body, html {
     border-right: 1px solid #333;
     border-left: 1px solid #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  }
-  
-  .center {
+}
+
+.center {
     width: 60%;
     display: flex;
     flex-direction: column;
@@ -32,14 +32,17 @@ body, html {
     box-sizing: border-box;
     background-color: #1e1e1e;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  }
-  
-  .container {
+}
+
+.container {
     width: 100%;
     height: calc(100% - 60px);
-  }
-  
-  .header {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.header {
     font-size: 2em;
     margin-bottom: 20px;
     color: #ffffff;
@@ -47,55 +50,72 @@ body, html {
     width: 100%;
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
-  }
-  
-  .button-container {
+    text-transform: uppercase;
+}
+
+.button-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     margin-top: 20px;
-  }
-  
-  .icon-button {
-    width: 60px;
-    height: 60px;
+}
+
+.icon-button {
+    width: 70px;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2em;
+    font-size: 1.5em;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .icon-button:hover {
+}
+
+.icon-button:hover {
     background-color: #0056b3;
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 91, 187, 0.5);
-  }
-  
-  .info-container {
+    box-shadow: 0 6px 12px rgba(0, 91, 187, 0.5);
+}
+
+.icon-button i {
+    margin-right: 10px;
+}
+
+.info-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-  }
-  
-  .info {
+    gap: 15px;
+}
+
+.info {
     font-size: 1.4em;
     margin: 15px 0;
     color: #ffffff;
-    padding: 10px 20px;
+    padding: 15px 25px;
     background-color: #282828;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  }
-  
-  .info-title {
+}
+
+.info-title {
     font-weight: bold;
     color: #ffffff;
-  }
-  
+}
+
+@media (max-width: 768px) {
+    .left, .right {
+        width: 100%;
+        border-right: none;
+        border-left: none;
+    }
+
+    .center {
+        width: 100%;
+    }
+}
