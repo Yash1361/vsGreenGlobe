@@ -1,10 +1,10 @@
 // Initialize the map
 var map = new maptalks.Map('map', {
-    center: [15.2663, -4.4419], // Coordinates for Kinshasa
+    center: [15.2663, -4.4419],
     zoom: 14.1,
-    minZoom: 14, // Minimum zoom level
+    minZoom: 14,
     centerCross: true,
-    dragRotate: false, //disable drag rotation
+    dragRotate: false,
     baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         subdomains: ['a', 'b', 'c'],
@@ -13,24 +13,16 @@ var map = new maptalks.Map('map', {
     layers: [new maptalks.VectorLayer('v')]
 });
 
-// Set map extent
 var extent = map.getExtent();
 map.setMaxExtent(extent);
-
-// Set zoom level
 map.setZoom(map.getZoom() - 2, { animation: false });
-
-// Add a polygon to visualize the extent
 map.getLayer('v').addGeometry(
     new maptalks.Polygon(extent.toArray(), {
         symbol: { 'polygonOpacity': 0, 'lineWidth': 5 }
     })
 );
-
-// Allow zooming in but not zooming out
 map.setMinZoom(14);
 
-// Simulated heat map data points for bad AQI
 var data = [
     [15.2663, -4.4419, 10],
     [15.2683, -4.4429, 9],
@@ -56,7 +48,6 @@ var data = [
     [15.2500, -4.4560, 7]
 ];
 
-// Create the heat map layer and add it to the map
 var heatlayer = new maptalks.HeatLayer('heat', data, {
     'heatValueScale': 7,
     'forceRenderOnRotating': true,
@@ -72,76 +63,18 @@ var heatlayer = new maptalks.HeatLayer('heat', data, {
     }
 }).addTo(map);
 
-// Log the heat layer to the console to ensure it was added
-console.log("Heat layer added:", heatlayer);
-
-// Add a recenter button
 document.querySelector('.button-container').innerHTML += '<button class="recenter-button">Recenter Map</button>';
 
-// Recenter map function
 document.querySelector('.recenter-button').addEventListener('click', function() {
     map.setCenter([15.2663, -4.4419]);
     map.setZoom(14.1);
 });
 
-// Initial values
 let budget = 10000;
 let aqi = 180;
 let happiness = 20;
 let score = 0;
 
-// Previous values of sliders
-let prevValues = {
-    wind: 0,
-    solar: 0,
-    factory: 0
-};
-
-// Function to update budget and AQI
-function updateInfo(type, newValue) {
-    const budgetElement = document.querySelector('.info-container .info:nth-child(1)');
-    const aqiElement = document.querySelector('.info-container .info:nth-child(2)');
-    const happinessElement = document.getElementById('happiness-indicator');
-
-    const budgetDecrease = { wind: 100, solar: 150, factory: 200 };
-    const aqiDecrease = { wind: 1, solar: 2, factory: 3 };
-    const happinessChange = { wind: 1, solar: 1, factory: -2 };
-
-    // Calculate the difference
-    const diff = newValue - prevValues[type];
-
-    // Update budget and AQI based on the difference
-    budget -= budgetDecrease[type] * diff;
-    aqi -= aqiDecrease[type] * diff;
-    happiness += happinessChange[type] * diff;
-
-    // Cap happiness between 0 and 100
-    happiness = Math.max(0, Math.min(100, happiness));
-
-    // Update the previous value
-    prevValues[type] = newValue;
-
-    // Update the UI
-    budgetElement.innerHTML = `<span class="info-title">Budget:</span> $${budget}`;
-    aqiElement.innerHTML = `<span class="info-title">AQI:</span> ${aqi}`;
-
-    // Update happiness indicator
-    let smileyClass;
-    if (happiness <= 20) {
-        smileyClass = 'fas fa-angry'; // Angry face
-    } else if (happiness < 40) {
-        smileyClass = 'fas fa-frown'; // Semi-angry face
-    } else if (happiness < 60) {
-        smileyClass = 'fas fa-meh'; // Neutral face
-    } else if (happiness < 80) {
-        smileyClass = 'fas fa-smile'; // Semi-happy face
-    } else {
-        smileyClass = 'fas fa-laugh'; // Happy face
-    }
-    happinessElement.innerHTML = `<i class="${smileyClass}"></i>`;
-}
-
-// Function to calculate score
 function calculateScore() {
     const scoreElement = document.getElementById('score');
     const initialBudget = 10000;
@@ -152,24 +85,59 @@ function calculateScore() {
     scoreElement.textContent = score;
 }
 
-// Slider event listeners
-document.getElementById('wind-slider').addEventListener('input', function() {
-    const value = parseInt(this.value, 10);
-    document.getElementById('wind-value').textContent = `(${value})`;
-    updateInfo('wind', value);
-});
-
-document.getElementById('solar-slider').addEventListener('input', function() {
-    const value = parseInt(this.value, 10);
-    document.getElementById('solar-value').textContent = `(${value})`;
-    updateInfo('solar', value);
-});
-
-document.getElementById('factory-slider').addEventListener('input', function() {
-    const value = parseInt(this.value, 10);
-    document.getElementById('factory-value').textContent = `(${value})`;
-    updateInfo('factory', value);
-});
-
-// Calculate score button event listener
 document.querySelector('.calculate-score-button').addEventListener('click', calculateScore);
+
+const implementPolicyButton = document.getElementById('implement-policy-button');
+const policyInput = document.getElementById('policy-input');
+const submitPolicyButton = document.getElementById('submit-policy-button');
+const policyResult = document.getElementById('policy-result');
+const viewPoliciesButton = document.getElementById('view-policies-button');
+const policiesList = document.getElementById('policies-list');
+
+implementPolicyButton.addEventListener('click', () => {
+    if (policyInput.style.display === 'flex') {
+        policyInput.style.display = 'none';
+    } else {
+        policyInput.style.display = 'flex';
+    }
+});
+
+submitPolicyButton.addEventListener('click', async () => {
+    const policyName = document.getElementById('policy-name').value;
+    const policyDescription = document.getElementById('policy-description').value;
+
+    if (policyName && policyDescription) {
+        const response = await fetch('/path/to/your/api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: policyName, description: policyDescription })
+        });
+
+        const result = await response.json();
+        policyResult.textContent = `Policy "${policyName}" implemented: ${result.message}`;
+
+        const policyItem = document.createElement('div');
+        policyItem.className = 'policy-item';
+        policyItem.textContent = `${policyName}: ${policyDescription}`;
+        policiesList.appendChild(policyItem);
+        
+        let currentCount = policiesList.children.length;
+        viewPoliciesButton.textContent = `Added Policies (${currentCount}/5)`;
+        policyInput.style.display = 'none';
+
+        if (currentCount >= 5) {
+            implementPolicyButton.disabled = true;
+            submitPolicyButton.disabled = true;
+        }
+    }
+});
+
+viewPoliciesButton.addEventListener('click', () => {
+    if (policiesList.children.length === 0) {
+        alert("No policies have been added.");
+    } else {
+        policiesList.style.display = policiesList.style.display === 'none' ? 'flex' : 'none';
+    }
+});

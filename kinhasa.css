@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); /* Ensure the font is loaded */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 body, html {
     margin: 0;
@@ -6,22 +6,19 @@ body, html {
     width: 100%;
     display: flex;
     font-family: 'Roboto', sans-serif;
-    background-color: #0B0A0F; /* Deeper black background */
+    background-color: #0B0A0F;
     color: #ffffff;
-    overflow: hidden; /* Hide scrollbars for a cleaner look */
+    overflow: hidden;
 }
 
-/* Main Container */
 .container {
   display: flex;
   height: 100vh;
   width: 100vw;
 }
 
-/* ----------- LEFT SIDE (Actions) ----------- */
-
 .left {
-  width: 25%; /* Wider for better visual balance */
+  width: 25%;
   background-color: #18161F;
   padding: 30px 20px;
   box-sizing: border-box;
@@ -32,7 +29,7 @@ body, html {
 }
 
 .left:hover {
-  background-color: #201E29; /* Subtle darkening on hover */
+  background-color: #201E29;
 }
 
 .header {
@@ -55,21 +52,20 @@ body, html {
     width: 100%;
 }
 
-/* Action Icons */
 .icon-button {
-  width: 80px; /* Larger icons */
+  width: 200px;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2em;
-  background-color: transparent; /* No background fill */
+  font-size: 1.2em;
+  background-color: transparent;
   color: #ffffff;
-  border: 2px solid #00C4FF; /* Blue border */
+  border: 2px solid #00C4FF;
   border-radius: 10px; 
   cursor: pointer;
   transition: all 0.3s ease; 
-  position: relative; /* For tooltip positioning */
+  position: relative;
 }
 
 .icon-button:hover {
@@ -80,99 +76,77 @@ body, html {
 }
 
 .icon-button i {
-    margin-right: 0;
+    margin-right: 10px;
 }
 
-/* Tooltips (Hidden by default) */
-.icon-button .tooltip {
-  visibility: hidden;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 4px;
-  position: absolute;
-  z-index: 1;
-  bottom: 120%; 
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0; 
-  transition: opacity 0.3s; 
-  font-size: 0.8em;
-  white-space: nowrap;
-  pointer-events: none; /* Prevent tooltips from blocking hover */
-}
-
-.icon-button .tooltip::after { /* Tooltip arrow */
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
-}
-
-.icon-button:hover .tooltip {
-  visibility: visible;
-  opacity: 1;
-}
-
-/* Sliders */
-.slider-container {
-  width: 100%;
-  display: flex;
+.policy-input {
+  display: none;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
 
-.slider {
-  width: 100%; 
-  -webkit-appearance: none;
-  appearance: none;
-  height: 8px;
-  background: #333;
-  outline: none;
-  border-radius: 10px;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+.policy-input input,
+.policy-input textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #00C4FF;
+  background-color: #282633;
+  color: #ffffff;
 }
 
-.slider:hover {
-    opacity: 1;
+.policy-input textarea {
+  resize: none;
 }
 
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #00c4ff;
+.submit-policy-button {
+  padding: 10px 20px;
+  background-color: #00C4FF;
+  color: #18161F;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-.slider::-webkit-slider-thumb:hover {
-    background-color: #008bb3;
+.submit-policy-button:hover {
+  background-color: #00A3CC;
 }
 
-.slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #00c4ff;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.policy-result {
+  width: 100%;
+  height: 200px;
+  padding: 20px;
+  background-color: #282633;
+  border: 2px solid #00C4FF;
+  border-radius: 5px;
+  color: #ffffff;
+  text-align: center;
+  overflow-y: auto;
 }
 
-.slider::-moz-range-thumb:hover {
-    background-color: #008bb3;
+.policies-list {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding-top: 10px;
 }
 
-/* ----------- CENTER (Map) ----------- */
+.policies-list .policy-item {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #00C4FF;
+  background-color: #282633;
+  color: #ffffff;
+}
+
 .center {
-    width: 50%; /* Map takes center stage */
+    width: 50%;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -181,11 +155,9 @@ body, html {
 #map { 
     width: 100%;
     height: 100%; 
-    border: none; /* Remove any default map border */
+    border: none; 
     border-radius: 0; 
 }
-
-/* ----------- RIGHT SIDE (Info) ----------- */
 
 .right {
   width: 25%; 
@@ -198,7 +170,7 @@ body, html {
 }
 
 .right:hover {
-  background-color: #201E29; /* Subtle darkening on hover */
+  background-color: #201E29;
 }
 
 .info-container {
@@ -213,14 +185,14 @@ body, html {
 .info {
     font-size: 1.2em; 
     color: #ffffff;
-    padding: 18px 25px; /* More padding */
-    background-color: #282633; /* Darker grey background for info boxes */
+    padding: 18px 25px;
+    background-color: #282633;
     border: 1px solid #333; 
     border-radius: 8px; 
     width: 100%;
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center; 
 }
 
@@ -231,7 +203,7 @@ body, html {
 
 .info-title {
     font-weight: 500;
-    color: #A09FBF; /* Lighter text color for the title */
+    color: #A09FBF;
 }
 
 .info-value {
@@ -240,10 +212,9 @@ body, html {
 }
 
 #happiness-indicator {
-    font-size: 1.5em; 
+    font-size: 1.5em;
 }
 
-/* Calculate Score Button */
 .calculate-score-button {
   width: 100%; 
   padding: 15px 25px; 
@@ -258,7 +229,7 @@ body, html {
 }
 
 .calculate-score-button:hover {
-  background-color: #00A3CC; 
+  background-color: #00A3CC;
   transform: translateY(-2px); 
   box-shadow: 0 4px 8px rgba(0, 196, 255, 0.5);
 }
