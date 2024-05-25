@@ -4,7 +4,7 @@ var map = new maptalks.Map('map', {
     zoom: 14.1,
     minZoom: 14, // Minimum zoom level
     centerCross: true,
-    dragRotate : false,       //disable drag rotation
+    dragRotate: false, //disable drag rotation
     baseLayer: new maptalks.TileLayer('base', {
         urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         subdomains: ['a', 'b', 'c'],
