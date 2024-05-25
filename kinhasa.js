@@ -87,6 +87,8 @@ document.querySelector('.recenter-button').addEventListener('click', function() 
 // Initial values
 let budget = 10000;
 let aqi = 180;
+let happiness = 20;
+let score = 0;
 
 // Previous values of sliders
 let prevValues = {
@@ -99,9 +101,11 @@ let prevValues = {
 function updateInfo(type, newValue) {
     const budgetElement = document.querySelector('.info-container .info:nth-child(1)');
     const aqiElement = document.querySelector('.info-container .info:nth-child(2)');
+    const happinessElement = document.getElementById('happiness-indicator');
 
     const budgetDecrease = { wind: 100, solar: 150, factory: 200 };
     const aqiDecrease = { wind: 1, solar: 2, factory: 3 };
+    const happinessChange = { wind: 1, solar: 1, factory: -2 };
 
     // Calculate the difference
     const diff = newValue - prevValues[type];
@@ -109,6 +113,10 @@ function updateInfo(type, newValue) {
     // Update budget and AQI based on the difference
     budget -= budgetDecrease[type] * diff;
     aqi -= aqiDecrease[type] * diff;
+    happiness += happinessChange[type] * diff;
+
+    // Cap happiness between 0 and 100
+    happiness = Math.max(0, Math.min(100, happiness));
 
     // Update the previous value
     prevValues[type] = newValue;
@@ -116,6 +124,32 @@ function updateInfo(type, newValue) {
     // Update the UI
     budgetElement.innerHTML = `<span class="info-title">Budget:</span> $${budget}`;
     aqiElement.innerHTML = `<span class="info-title">AQI:</span> ${aqi}`;
+
+    // Update happiness indicator
+    let smileyClass;
+    if (happiness <= 20) {
+        smileyClass = 'fas fa-angry'; // Angry face
+    } else if (happiness < 40) {
+        smileyClass = 'fas fa-frown'; // Semi-angry face
+    } else if (happiness < 60) {
+        smileyClass = 'fas fa-meh'; // Neutral face
+    } else if (happiness < 80) {
+        smileyClass = 'fas fa-smile'; // Semi-happy face
+    } else {
+        smileyClass = 'fas fa-laugh'; // Happy face
+    }
+    happinessElement.innerHTML = `<i class="${smileyClass}"></i>`;
+}
+
+// Function to calculate score
+function calculateScore() {
+    const scoreElement = document.getElementById('score');
+    const initialBudget = 10000;
+    const initialAQI = 180;
+    const initialHappiness = 20;
+
+    score = Math.max(0, Math.round((initialBudget - budget) * 0.1 + (initialAQI - aqi) * 2 + (happiness - initialHappiness) * 5));
+    scoreElement.textContent = score;
 }
 
 // Slider event listeners
@@ -136,3 +170,6 @@ document.getElementById('factory-slider').addEventListener('input', function() {
     document.getElementById('factory-value').textContent = `(${value})`;
     updateInfo('factory', value);
 });
+
+// Calculate score button event listener
+document.querySelector('.calculate-score-button').addEventListener('click', calculateScore);

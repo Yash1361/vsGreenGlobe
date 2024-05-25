@@ -186,6 +186,27 @@ body, html {
     color: #00c4ff;
 }
 
+.calculate-score-button {
+    width: 200px;
+    height: 50px;
+    background-color: #00c4ff;
+    color: white;
+    border: none;
+    font-size: 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    line-height: 40px;
+    margin-top: 20px;
+}
+
+.calculate-score-button:hover {
+    background-color: #008bb3;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 139, 179, 0.5);
+}
+
 @media (max-width: 768px) {
     .left, .right {
         width: 100%;
