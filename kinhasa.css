@@ -108,6 +108,29 @@ body, html {
     color: #ffffff;
 }
 
+.icon-button {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+}
+
+.icon-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 91, 187, 0.5);
+}
+
+
 @media (max-width: 768px) {
     .left, .right {
         width: 100%;
