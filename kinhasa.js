@@ -173,10 +173,13 @@ function updateInfoFromResult(text) {
 
     if (aqiMatch) {
         const aqiValue = parseFloat(aqiMatch[1].replace('%', '').trim());
+        console.log("AQI Value:", aqiValue);
         if (aqiMatch[1].includes('+')) {
-            aqi *= (1 + aqiValue / 100);
-        } else {
-            aqi *= (1 - aqiValue / 100);
+            console.log("+ found in aqi")
+            aqi *= (1 + (aqiValue) / 100);
+        } else if (aqiMatch[1].includes('-')) {
+            console.log("- found in aqi")
+            aqi *= (1 - (-(aqiValue) / 100));
         }
         console.log("Updated AQI:", aqi);
         document.querySelector('.info-container .info:nth-child(2)').innerHTML = `<span class="info-title">AQI:</span> ${aqi.toFixed(2)}`;
@@ -184,13 +187,16 @@ function updateInfoFromResult(text) {
 
     if (happinessMatch) {
         const happinessValue = parseFloat(happinessMatch[1].replace('%', '').trim());
+        console.log("Happiness Value:", happinessValue);
         if (happinessMatch[1].includes('+')) {
+            console.log("+ found in happiness")
             happiness *= (1 + happinessValue / 100);
-        } else {
-            happiness *= (1 - happinessValue / 100);
+        } else if (happinessMatch[1].includes('-')) {
+            console.log("- found in happiness")
+            happiness *= (1 - (-(happinessValue) / 100));
         }
         console.log("Updated Happiness:", happiness);
-        
+
         let smileyClass;
         if (happiness <= 20) {
             smileyClass = 'fas fa-angry'; // Angry face
