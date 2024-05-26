@@ -74,6 +74,7 @@ document.querySelector('.calculate-score-button').addEventListener('click', calc
 const implementPolicyButton = document.getElementById('implement-policy-button');
 const policyInput = document.getElementById('policy-input');
 const submitPolicyButton = document.getElementById('submit-policy-button');
+const clearPolicyButton = document.getElementById('clear-policy-button');
 const policyResult = document.getElementById('policy-result');
 const viewPoliciesButton = document.getElementById('view-policies-button');
 const policiesList = document.getElementById('policies-list');
@@ -116,6 +117,11 @@ submitPolicyButton.addEventListener('click', async () => {
             submitPolicyButton.disabled = true;
         }
     }
+});
+
+clearPolicyButton.addEventListener('click', () => {
+    document.getElementById('policy-name').value = '';
+    document.getElementById('policy-description').value = '';
 });
 
 viewPoliciesButton.addEventListener('click', () => {

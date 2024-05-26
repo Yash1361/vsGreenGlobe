@@ -115,6 +115,24 @@ body, html {
   background-color: #00A3CC;
 }
 
+.clear-policy-button {
+    padding: 10px 20px;
+    background-color: #00C4FF;
+    color: #18161F;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+  
+.clear-policy-button:hover {
+    background-color: #00A3CC;
+}
+
+#button-container{
+    text-align: center;
+}
+
 .policy-result {
   width: 98%;
   height: 410px;
