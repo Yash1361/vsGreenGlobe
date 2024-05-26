@@ -5,8 +5,10 @@ const mapImage = new Image();
 mapImage.src = 'map3.png'; // Update the path to your image
 
 let pollutionClouds = [
-    { x: 520, y: 230, radius: 170, opacity: 0.56 },
-    { x: 410, y: 650, radius: 170, opacity: 0.76 }
+    { x: 520, y: 280, radius: 170, opacity: 0.68 },
+    { x: 410, y: 650, radius: 170, opacity: 0.86 },
+    { x: 260, y: 470, radius: 130, opacity: 0.56 },
+    { x: 520, y: 470, radius: 90, opacity: 0.56 }
 ];
 
 mapImage.onload = () => {
@@ -29,7 +31,7 @@ function drawMapWithGradientOverlay() {
     ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
 
     // Create the original gradient overlay
-    const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 50, canvas.width / 2, canvas.height / 2, 300);
+    const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0.01, canvas.width / 2, canvas.height / 2, 0.02);
     gradient.addColorStop(0, 'rgba(255, 0, 0, 0.8)'); // Dark red
     gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.4)'); // Medium red
     gradient.addColorStop(1, 'rgba(255, 0, 0, 0.1)'); // Light red
@@ -64,10 +66,10 @@ function animatePollutionClouds() {
     drawMapWithGradientOverlay();
     
     pollutionClouds.forEach(cloud => {
-        if (aqi > 90) {
-            const reductionFactor = (aqi - 90) / (180 - 90); // Scale from 0 to 1
+        if (aqi > 40) {
+            const reductionFactor = (aqi - 40) / (180 - 40); // Scale from 0 to 1
             cloud.radius = 170 * reductionFactor;
-            cloud.opacity = 0.5 * reductionFactor;
+            cloud.opacity = 0.56 * reductionFactor;
         } else {
             cloud.radius = 0;
             cloud.opacity = 0;
@@ -75,7 +77,7 @@ function animatePollutionClouds() {
     });
 
     if (aqi > 90) {
-        requestAnimationFrame(animatePollutionClouds);
+        setTimeout(() => requestAnimationFrame(animatePollutionClouds), 50); // Slowing down the animation
     }
 }
 
