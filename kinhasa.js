@@ -168,7 +168,13 @@ function updateInfoFromResult(text) {
         const multiplier = moneySpentMatch[3].toLowerCase() === 'million' ? 1e6 : 1e9;
         moneySpent += moneySpentValue * multiplier;
         console.log("Updated Money Spent:", moneySpent);
-        document.querySelector('.info-container .info:nth-child(1)').innerHTML = `<span class="info-title">Money Spent:</span> $${(moneySpent / 1e9).toFixed(2)} billion`;
+        let moneySpentDisplay;
+        if (moneySpent >= 1e9) {
+            moneySpentDisplay = `$${(moneySpent / 1e9).toFixed(2)} billion`;
+        } else {
+            moneySpentDisplay = `$${(moneySpent / 1e6).toFixed(2)} million`;
+        }
+        document.querySelector('.info-container .info:nth-child(1)').innerHTML = `<span class="info-title">Money Spent:</span> ${moneySpentDisplay}`;
     }
 
     if (aqiMatch) {
