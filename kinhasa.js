@@ -76,6 +76,7 @@ const policyInput = document.getElementById('policy-input');
 const submitPolicyButton = document.getElementById('submit-policy-button');
 const clearPolicyButton = document.getElementById('clear-policy-button');
 const policyResult = document.getElementById('policy-result');
+const loadingSpinner = document.getElementById('loading-spinner');
 const viewPoliciesButton = document.getElementById('view-policies-button');
 const policiesList = document.getElementById('policies-list');
 
@@ -92,6 +93,9 @@ submitPolicyButton.addEventListener('click', async () => {
     const policyDescription = document.getElementById('policy-description').value;
 
     if (policyName && policyDescription) {
+        loadingSpinner.style.display = 'block';
+        policyResult.style.display = 'none';
+
         const response = await fetch('http://localhost:3000/generate', {
             method: 'POST',
             headers: {
@@ -101,6 +105,8 @@ submitPolicyButton.addEventListener('click', async () => {
         });
 
         const result = await response.json();
+        loadingSpinner.style.display = 'none';
+        policyResult.style.display = 'block';
         policyResult.innerHTML = marked.parse(result.text);
 
         const policyItem = document.createElement('div');
