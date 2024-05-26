@@ -92,16 +92,16 @@ submitPolicyButton.addEventListener('click', async () => {
     const policyDescription = document.getElementById('policy-description').value;
 
     if (policyName && policyDescription) {
-        const response = await fetch('/path/to/your/api', {
+        const response = await fetch('http://localhost:3000/generate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name: policyName, description: policyDescription })
+            body: JSON.stringify({ policyName, policyDescription })
         });
 
         const result = await response.json();
-        policyResult.textContent = `Policy "${policyName}" implemented: ${result.message}`;
+        policyResult.textContent = result.text;
 
         const policyItem = document.createElement('div');
         policyItem.className = 'policy-item';
