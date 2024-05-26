@@ -23,19 +23,35 @@ function drawMapWithGradientOverlay() {
     // Draw the map image first
     ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
 
-    // Create the gradient overlay
+    // Create the original gradient overlay
     const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 50, canvas.width / 2, canvas.height / 2, 300);
     gradient.addColorStop(0, 'rgba(255, 0, 0, 0.8)'); // Dark red
     gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.4)'); // Medium red
     gradient.addColorStop(1, 'rgba(255, 0, 0, 0.1)'); // Light red
 
-    // Apply the gradient overlay only within the map area
+    // Apply the original gradient overlay only within the map area
     ctx.globalCompositeOperation = 'source-atop';
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    // Add additional circles above and below the original gradient
+    drawPollutionCloud(canvas.width / 1.7, canvas.height / 4, 170, 0.5);
+    drawPollutionCloud(canvas.width / 2, canvas.height * 2 / 2.5, 150, 0.76);
+
     // Reset the composite operation
     ctx.globalCompositeOperation = 'source-over';
+}
+
+function drawPollutionCloud(x, y, radius, opacity) {
+    const gradient = ctx.createRadialGradient(x, y, radius / 2, x, y, radius);
+    gradient.addColorStop(0, `rgba(255, 0, 0, ${opacity})`);
+    gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
+
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
 }
 
 let budget = 10000;
