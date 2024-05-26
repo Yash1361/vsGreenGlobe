@@ -101,7 +101,7 @@ submitPolicyButton.addEventListener('click', async () => {
         });
 
         const result = await response.json();
-        policyResult.textContent = result.text;
+        policyResult.innerHTML = marked.parse(result.text);
 
         const policyItem = document.createElement('div');
         policyItem.className = 'policy-item';
