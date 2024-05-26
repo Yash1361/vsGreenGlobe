@@ -4,6 +4,11 @@ const ctx = canvas.getContext('2d');
 const mapImage = new Image();
 mapImage.src = 'map3.png'; // Update the path to your image
 
+let pollutionClouds = [
+    { x: 520, y: 230, radius: 170, opacity: 0.56 },
+    { x: 410, y: 650, radius: 170, opacity: 0.76 }
+];
+
 mapImage.onload = () => {
     // Set the canvas dimensions to match the image dimensions
     canvas.width = mapImage.width;
@@ -34,15 +39,14 @@ function drawMapWithGradientOverlay() {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Add additional circles above and below the original gradient
-    drawPollutionCloud(canvas.width / 1.7, canvas.height / 4, 170, 0.5);
-    drawPollutionCloud(canvas.width / 2, canvas.height * 2 / 2.5, 150, 0.76);
-
+    // Draw pollution clouds
+    pollutionClouds.forEach(cloud => drawPollutionCloud(cloud));
+    
     // Reset the composite operation
     ctx.globalCompositeOperation = 'source-over';
 }
 
-function drawPollutionCloud(x, y, radius, opacity) {
+function drawPollutionCloud({ x, y, radius, opacity }) {
     const gradient = ctx.createRadialGradient(x, y, radius / 2, x, y, radius);
     gradient.addColorStop(0, `rgba(255, 0, 0, ${opacity})`);
     gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
@@ -52,6 +56,27 @@ function drawPollutionCloud(x, y, radius, opacity) {
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
+}
+
+function animatePollutionClouds() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBackground();
+    drawMapWithGradientOverlay();
+    
+    pollutionClouds.forEach(cloud => {
+        if (aqi > 90) {
+            const reductionFactor = (aqi - 90) / (180 - 90); // Scale from 0 to 1
+            cloud.radius = 170 * reductionFactor;
+            cloud.opacity = 0.5 * reductionFactor;
+        } else {
+            cloud.radius = 0;
+            cloud.opacity = 0;
+        }
+    });
+
+    if (aqi > 90) {
+        requestAnimationFrame(animatePollutionClouds);
+    }
 }
 
 let moneySpent = 0;
@@ -189,6 +214,9 @@ function updateInfoFromResult(text) {
         }
         console.log("Updated AQI:", aqi);
         document.querySelector('.info-container .info:nth-child(2)').innerHTML = `<span class="info-title">AQI:</span> ${aqi.toFixed(2)}`;
+
+        // Animate pollution clouds based on updated AQI
+        animatePollutionClouds();
     }
 
     if (happinessMatch) {
