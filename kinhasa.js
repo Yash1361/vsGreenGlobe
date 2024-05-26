@@ -2,7 +2,7 @@ const canvas = document.getElementById('mapCanvas');
 const ctx = canvas.getContext('2d');
 
 const mapImage = new Image();
-mapImage.src = 'map3.jpeg'; // Update the path to your image
+mapImage.src = 'map3.png'; // Update the path to your image
 
 mapImage.onload = () => {
     // Set the canvas dimensions to match the image dimensions

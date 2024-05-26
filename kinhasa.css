@@ -157,7 +157,7 @@ body, html {
 #mapCanvas { 
     border: none; 
     border-radius: 0; 
-    max-width: 75%;  /* Ensure the canvas doesn't overflow the container */
+    max-width: 98%;  /* Ensure the canvas doesn't overflow the container */
     max-height: 84.2%;
 }
 
