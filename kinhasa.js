@@ -232,10 +232,10 @@ function updateInfoFromResult(text) {
         console.log("Happiness Value:", happinessValue);
         if (happinessMatch[1].includes('+')) {
             console.log("+ found in happiness")
-            happiness *= (1 + happinessValue / 100);
+            happiness += happinessValue;
         } else if (happinessMatch[1].includes('-')) {
             console.log("- found in happiness")
-            happiness *= (1 - (-(happinessValue) / 100));
+            happiness += happinessValue;
         }
         console.log("Updated Happiness:", happiness);
 
