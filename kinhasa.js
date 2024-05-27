@@ -18,6 +18,7 @@ mapImage.onload = () => {
 
     drawBackground();
     drawMapWithGradientOverlay();
+    animatePollutionClouds(); // Start animation after loading the image
 };
 
 function drawBackground() {
@@ -65,20 +66,25 @@ function animatePollutionClouds() {
     drawBackground();
     drawMapWithGradientOverlay();
     
-    pollutionClouds.forEach(cloud => {
-        if (aqi > 40) {
-            const reductionFactor = (aqi - 40) / (180 - 40); // Scale from 0 to 1
-            cloud.radius = 170 * reductionFactor;
-            cloud.opacity = 0.56 * reductionFactor;
-        } else {
-            cloud.radius = 0;
-            cloud.opacity = 0;
+    pollutionClouds.forEach((cloud, index) => {
+        let targetRadius = cloud.radius;
+        let targetOpacity = cloud.opacity;
+        
+        if ((index === 0) || (index === 1) || (index === 2)) { // Biggest and darkest cloud
+            const reductionFactor = Math.max((aqi - 40) / (180 - 40), 0); // Scale from 0 to 1
+            targetRadius = 170 * reductionFactor;
+            targetOpacity = 0.86 * reductionFactor;
+        } else { // Smaller clouds can disappear earlier
+            const reductionFactor = Math.max((aqi - 40) / (180 - 40), 0);
+            targetRadius = cloud.radius * reductionFactor;
+            targetOpacity = cloud.opacity * reductionFactor;
         }
+
+        cloud.radius += (targetRadius - cloud.radius) * 0.1;
+        cloud.opacity += (targetOpacity - cloud.opacity) * 0.1;
     });
 
-    if (aqi > 90) {
-        setTimeout(() => requestAnimationFrame(animatePollutionClouds), 50); // Slowing down the animation
-    }
+    requestAnimationFrame(animatePollutionClouds);
 }
 
 let moneySpent = 0;
