@@ -1,3 +1,22 @@
+let username = '';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const usernameModal = document.getElementById('username-modal');
+    const usernameInput = document.getElementById('username-input');
+    const usernameSubmit = document.getElementById('username-submit');
+
+    usernameSubmit.addEventListener('click', () => {
+        username = usernameInput.value.trim();
+        if (username) {
+            usernameModal.style.display = 'none';
+        } else {
+            alert('Username cannot be empty!');
+        }
+    });
+
+    usernameModal.style.display = 'flex';
+});
+
 const canvas = document.getElementById('mapCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -126,9 +145,8 @@ implementPolicyButton.addEventListener('click', () => {
 submitPolicyButton.addEventListener('click', async () => {
     const policyName = document.getElementById('policy-name').value;
     const policyDescription = document.getElementById('policy-description').value;
-    const username = "user123"; // Replace this with the actual username
 
-    if (policyName && policyDescription) {
+    if (policyName && policyDescription && username) {
         loadingSpinner.style.display = 'block';
         policyResult.style.display = 'none';
 

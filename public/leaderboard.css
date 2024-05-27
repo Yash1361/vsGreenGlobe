@@ -1,49 +1,55 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #18161F; /* Dark background */
     margin: 0;
     padding: 20px;
+    color: #f2f2f2; /* Light text color */
 }
 
 .container {
-    max-width: 800px;
+    max-width: 90%;
     margin: auto;
-    background: white;
+    background: #1e1e1e; /* Dark container background */
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #007BFF; /* Blue color for heading */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: #2e2e2e; /* Darker table background */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden;
 }
 
 table, th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #444; /* Darker border color */
 }
 
 th, td {
     padding: 12px;
     text-align: left;
+    color: #f2f2f2; /* Light text color */
 }
 
 th {
-    background-color: #f2f2f2;
-    color: #333;
+    background-color: #333; /* Darker background for table header */
+    color: white; /* Blue text for header */
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #2a2a2a; /* Darker background for even rows */
 }
 
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #3a3a3a; /* Slightly lighter background on hover */
 }
 
 td {
@@ -58,6 +64,7 @@ td:nth-child(1) {
 td:nth-child(2) {
     width: 150px;
     font-weight: bold;
+    color: white; /* Blue color for usernames */
 }
 
 td:nth-child(3) {
