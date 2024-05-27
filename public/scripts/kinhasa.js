@@ -292,7 +292,8 @@ function showConfetti() {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.animationDelay = `${Math.random() * 3}s`;
+        confetti.style.animationDelay = `${Math.random() * 2}s`;
+        confetti.style.setProperty('--i', Math.random());
         confettiContainer.appendChild(confetti);
     }
     
@@ -300,6 +301,7 @@ function showConfetti() {
         confettiContainer.remove();
     }, 5000);
 }
+
 
 // Function to show the congratulatory modal
 function showCongratsModal(place) {
