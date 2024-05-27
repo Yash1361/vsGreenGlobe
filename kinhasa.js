@@ -2,7 +2,7 @@ const canvas = document.getElementById('mapCanvas');
 const ctx = canvas.getContext('2d');
 
 const mapImage = new Image();
-mapImage.src = 'map3.png'; // Update the path to your image
+mapImage.src = '/map3.png'; // Update the path to your image
 
 let pollutionClouds = [
     { x: 520, y: 280, radius: 170, opacity: 0.68 },
@@ -98,7 +98,6 @@ function calculateScore() {
     const initialAQI = 180;
     const initialHappiness = 20;
 
-    
     if (moneySpent >= 1e9) {
         score = Math.round((aqi * happiness * 1000000000) / (moneySpent));
     } else {
@@ -106,7 +105,6 @@ function calculateScore() {
     }
     scoreElement.textContent = score;
 }
-
 
 const implementPolicyButton = document.getElementById('implement-policy-button');
 const policyInput = document.getElementById('policy-input');
@@ -162,6 +160,9 @@ submitPolicyButton.addEventListener('click', async () => {
             implementPolicyButton.disabled = true;
             submitPolicyButton.disabled = true;
         }
+
+        // Submit policy to leaderboard
+        submitPolicyToLeaderboard(policyName, policyDescription, score);
     }
 });
 
@@ -260,4 +261,20 @@ function updateInfoFromResult(text) {
 
     // Calculate score automatically whenever info changes
     calculateScore();
+}
+
+async function submitPolicyToLeaderboard(title, description, score) {
+    const response = await fetch('http://localhost:3000/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title, description, score })
+    });
+
+    if (response.ok) {
+        console.log('Policy submitted to leaderboard successfully!');
+    } else {
+        console.error('Error submitting policy to leaderboard.');
+    }
 }

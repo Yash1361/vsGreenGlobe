@@ -19,7 +19,7 @@ async function connectToDb() {
 }
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'submission.html'));
+    res.sendFile(path.join(__dirname, 'public', 'Kinhasa.html'));
 });
 
 app.get('/leaderboard', (req, res) => {
@@ -38,8 +38,17 @@ app.post('/submit', async (req, res) => {
     try {
         const db = await connectToDb();
         const policies = db.collection('policies');
-        await policies.insertOne({ title, description, score });
-        res.status(200).send('Policy submitted successfully!');
+        const allPolicies = await policies.find().sort({ score: -1 }).toArray();
+
+        if (allPolicies.length < 10 || score > allPolicies[allPolicies.length - 1].score) {
+            if (allPolicies.length >= 10) {
+                await policies.deleteOne({ _id: allPolicies[allPolicies.length - 1]._id });
+            }
+            await policies.insertOne({ title, description, score });
+            res.status(200).send('Policy submitted successfully!');
+        } else {
+            res.status(200).send('Policy score is not high enough to be added to the leaderboard.');
+        }
     } catch (err) {
         console.error(err);
         res.status(500).send('Error submitting policy.');
@@ -50,7 +59,7 @@ app.get('/leaderboard-data', async (req, res) => {
     try {
         const db = await connectToDb();
         const policies = db.collection('policies');
-        const allPolicies = await policies.find().toArray();
+        const allPolicies = await policies.find().sort({ score: -1 }).toArray();
         res.json(allPolicies);
     } catch (err) {
         console.error(err);
