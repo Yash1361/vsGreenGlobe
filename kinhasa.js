@@ -282,6 +282,48 @@ function updateInfoFromResult(text) {
     calculateScore();
 }
 
+// Function to show confetti animation
+function showConfetti() {
+    const confettiContainer = document.createElement('div');
+    confettiContainer.id = 'confetti-container';
+    document.body.appendChild(confettiContainer);
+    
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.animationDelay = `${Math.random() * 3}s`;
+        confettiContainer.appendChild(confetti);
+    }
+    
+    setTimeout(() => {
+        confettiContainer.remove();
+    }, 5000);
+}
+
+// Function to show the congratulatory modal
+function showCongratsModal(place) {
+    const congratsModal = document.createElement('div');
+    congratsModal.className = 'congrats-modal';
+    congratsModal.innerHTML = `
+        <div class="congrats-modal-content">
+            <h2>Congratulations!</h2>
+            <p>You got ${place} place on the leaderboard!</p>
+            <button id="check-it-out">Check it out!!</button>
+            <button id="maybe-later">Maybe Later</button>
+        </div>
+    `;
+    document.body.appendChild(congratsModal);
+
+    document.getElementById('check-it-out').addEventListener('click', () => {
+        window.location.href = '/leaderboard';
+    });
+
+    document.getElementById('maybe-later').addEventListener('click', () => {
+        congratsModal.remove();
+    });
+}
+
 async function submitPolicyToLeaderboard(title, description, score, username) {
     const response = await fetch('http://localhost:3000/submit', {
         method: 'POST',
@@ -292,6 +334,12 @@ async function submitPolicyToLeaderboard(title, description, score, username) {
     });
 
     if (response.ok) {
+        const result = await response.json();
+        const place = result.place; // Assuming the server responds with the place
+        if (place) {
+            showConfetti();
+            setTimeout(() => showCongratsModal(place), 3000); // Show modal after confetti
+        }
         console.log('Policy submitted to leaderboard successfully!');
     } else {
         console.error('Error submitting policy to leaderboard.');

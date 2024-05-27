@@ -69,17 +69,26 @@ app.post('/submit', async (req, res) => {
 
         // Ensure only top 10 entries remain
         const allPolicies = await policies.find().sort({ totalScore: -1 }).toArray();
+        let place = null;
+        for (let i = 0; i < allPolicies.length; i++) {
+            if (allPolicies[i].username === username) {
+                place = i + 1;
+                break;
+            }
+        }
+
         if (allPolicies.length > 10) {
             const lastUser = allPolicies[10];
             await policies.deleteOne({ _id: lastUser._id });
         }
 
-        res.status(200).send('Policy submitted successfully!');
+        res.status(200).json({ place });
     } catch (err) {
         console.error(err);
         res.status(500).send('Error submitting policy.');
     }
 });
+
 
 app.get('/leaderboard-data', async (req, res) => {
     try {
