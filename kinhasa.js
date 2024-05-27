@@ -126,6 +126,7 @@ implementPolicyButton.addEventListener('click', () => {
 submitPolicyButton.addEventListener('click', async () => {
     const policyName = document.getElementById('policy-name').value;
     const policyDescription = document.getElementById('policy-description').value;
+    const username = "user123"; // Replace this with the actual username
 
     if (policyName && policyDescription) {
         loadingSpinner.style.display = 'block';
@@ -162,7 +163,7 @@ submitPolicyButton.addEventListener('click', async () => {
         }
 
         // Submit policy to leaderboard
-        submitPolicyToLeaderboard(policyName, policyDescription, score);
+        submitPolicyToLeaderboard(policyName, policyDescription, score, username);
     }
 });
 
@@ -263,13 +264,13 @@ function updateInfoFromResult(text) {
     calculateScore();
 }
 
-async function submitPolicyToLeaderboard(title, description, score) {
+async function submitPolicyToLeaderboard(title, description, score, username) {
     const response = await fetch('http://localhost:3000/submit', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ title, description, score })
+        body: JSON.stringify({ title, description, score, username })
     });
 
     if (response.ok) {

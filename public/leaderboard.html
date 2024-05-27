@@ -13,9 +13,9 @@
             <thead>
                 <tr>
                     <th>S.No</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Score</th>
+                    <th>Username</th>
+                    <th>Policies</th>
+                    <th>Total Score</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,11 +33,13 @@
                     tbody.innerHTML = '';
                     data.forEach((entry, index) => {
                         const row = document.createElement('tr');
+                        const policiesList = entry.policies.map((policy, i) => `${i + 1}. ${policy.title}: ${policy.description}`).join('<br><br>');
+
                         row.innerHTML = `
                             <td>${index + 1}</td>
-                            <td>${entry.title}</td>
-                            <td>${entry.description}</td>
-                            <td>${entry.score}</td>
+                            <td>${entry.username}</td>
+                            <td>${policiesList}</td>
+                            <td>${entry.totalScore}</td>
                         `;
                         tbody.appendChild(row);
                     });

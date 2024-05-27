@@ -40,28 +40,41 @@ app.post('/generate', async (req, res) => {
 });
 
 app.post('/submit', async (req, res) => {
-    console.log('Received POST request at /submit');
-    const { title, description, score } = req.body;
-    console.log('Request body:', req.body);
-    if (!title || !description || !score) {
-        console.log('Missing fields in request body');
+    const { title, description, score, username } = req.body;
+    if (!title || !description || !score || !username) {
         return res.status(400).send('All fields are required');
     }
 
     try {
         const db = await connectToDb();
         const policies = db.collection('policies');
-        const allPolicies = await policies.find().sort({ score: -1 }).toArray();
+        
+        // Find existing user policies
+        let userPolicies = await policies.findOne({ username });
 
-        if (allPolicies.length < 10 || score > allPolicies[allPolicies.length - 1].score) {
-            if (allPolicies.length >= 10) {
-                await policies.deleteOne({ _id: allPolicies[allPolicies.length - 1]._id });
-            }
-            await policies.insertOne({ title, description, score });
-            res.status(200).send('Policy submitted successfully!');
+        if (userPolicies) {
+            // Append new policy to user's policies
+            userPolicies.policies.push({ title, description, score });
+            userPolicies.totalScore = userPolicies.policies.reduce((acc, policy) => acc + policy.score, 0);
+            await policies.updateOne({ username }, { $set: userPolicies });
         } else {
-            res.status(200).send('Policy score is not high enough to be added to the leaderboard.');
+            // Insert new user policies
+            const newUserPolicies = {
+                username,
+                policies: [{ title, description, score }],
+                totalScore: score
+            };
+            await policies.insertOne(newUserPolicies);
         }
+
+        // Ensure only top 10 entries remain
+        const allPolicies = await policies.find().sort({ totalScore: -1 }).toArray();
+        if (allPolicies.length > 10) {
+            const lastUser = allPolicies[10];
+            await policies.deleteOne({ _id: lastUser._id });
+        }
+
+        res.status(200).send('Policy submitted successfully!');
     } catch (err) {
         console.error(err);
         res.status(500).send('Error submitting policy.');
@@ -72,7 +85,7 @@ app.get('/leaderboard-data', async (req, res) => {
     try {
         const db = await connectToDb();
         const policies = db.collection('policies');
-        const allPolicies = await policies.find().sort({ score: -1 }).toArray();
+        const allPolicies = await policies.find().sort({ totalScore: -1 }).toArray();
         res.json(allPolicies);
     } catch (err) {
         console.error(err);
