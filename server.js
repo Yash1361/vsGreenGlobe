@@ -39,6 +39,39 @@ app.post('/generate', async (req, res) => {
     }
 });
 
+app.post('/vote', async (req, res) => {
+    const { username, title, vote } = req.body;
+    if (!username || !title || !Number.isInteger(vote)) {
+        return res.status(400).send('Invalid request');
+    }
+
+    try {
+        const db = await connectToDb();
+        const policies = db.collection('policies');
+
+        const userPolicies = await policies.findOne({ username });
+        if (userPolicies) {
+            const policy = userPolicies.policies.find(p => p.title === title);
+            if (policy) {
+                if (!policy.voteCount) {
+                    policy.voteCount = 0;
+                }
+                policy.voteCount += vote;
+
+                await policies.updateOne({ username, 'policies.title': title }, { $set: { 'policies.$.voteCount': policy.voteCount } });
+
+                return res.status(200).json({ voteCount: policy.voteCount });
+            }
+        }
+
+        res.status(404).send('Policy not found');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating vote count');
+    }
+});
+
+
 app.post('/submit', async (req, res) => {
     const { title, description, score, username } = req.body;
     if (!title || !description || !score || !username) {
