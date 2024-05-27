@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const leaderboardTable = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
+    let currentUser = localStorage.getItem('currentUser') || prompt('Please enter your username:');
+    if (!currentUser) {
+        currentUser = prompt('Please enter your username:');
+        localStorage.setItem('currentUser', currentUser);
+    }
 
     async function fetchLeaderboardData() {
         const response = await fetch('http://localhost:3000/leaderboard-data');
@@ -22,13 +27,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             cell4.textContent = user.totalScore;
 
             const policies = user.policies.map((policy, policyIndex) => {
+                const userVote = policy.votes && policy.votes[currentUser] || 0;
                 return `
                     <div class="policy-item" data-username="${user.username}" data-title="${policy.title}">
                         <span>${policyIndex + 1}) ${policy.title}: ${policy.description}</span>
                         <div class="voting">
-                            <i class="fas fa-arrow-up upvote" data-username="${user.username}" data-title="${policy.title}"></i>
+                            <i class="fas fa-arrow-up upvote ${userVote === 1 ? 'voted' : ''}" data-username="${user.username}" data-title="${policy.title}" data-vote="1"></i>
                             <span class="vote-count">${policy.voteCount || 0}</span>
-                            <i class="fas fa-arrow-down downvote" data-username="${user.username}" data-title="${policy.title}"></i>
+                            <i class="fas fa-arrow-down downvote ${userVote === -1 ? 'voted' : ''}" data-username="${user.username}" data-title="${policy.title}" data-vote="-1"></i>
                         </div>
                     </div>
                     <br>
@@ -41,50 +47,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function addEventListeners() {
-        document.querySelectorAll('.upvote').forEach(button => {
+        document.querySelectorAll('.upvote, .downvote').forEach(button => {
             button.addEventListener('click', async (event) => {
                 const username = event.target.getAttribute('data-username');
                 const title = event.target.getAttribute('data-title');
-                const voteCountElement = event.target.nextElementSibling;
+                const vote = parseInt(event.target.getAttribute('data-vote'), 10);
+                const voteCountElement = event.target.parentElement.querySelector('.vote-count');
 
                 const response = await fetch('http://localhost:3000/vote', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, title, vote: 1 })
+                    body: JSON.stringify({ username, title, vote, voter: currentUser })
                 });
 
                 if (response.ok) {
                     const result = await response.json();
                     voteCountElement.textContent = result.voteCount;
+                    updateVoteStyles(event.target, result.voterVote);
                     if (result.voteCount <= -10) {
-                        // Remove the policy from the DOM
-                        event.target.closest('.policy-item').remove();
-                    }
-                }
-            });
-        });
-
-        document.querySelectorAll('.downvote').forEach(button => {
-            button.addEventListener('click', async (event) => {
-                const username = event.target.getAttribute('data-username');
-                const title = event.target.getAttribute('data-title');
-                const voteCountElement = event.target.previousElementSibling;
-
-                const response = await fetch('http://localhost:3000/vote', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, title, vote: -1 })
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    voteCountElement.textContent = result.voteCount;
-                    if (result.voteCount <= -10) {
-                        // Remove the policy from the DOM
                         event.target.closest('.policy-item').remove();
                     }
                 }
@@ -92,6 +74,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Initial rendering of the leaderboard
+    function updateVoteStyles(target, voterVote) {
+        const upvoteButton = target.closest('.voting').querySelector('.upvote');
+        const downvoteButton = target.closest('.voting').querySelector('.downvote');
+        if (voterVote === 1) {
+            upvoteButton.classList.add('voted');
+            downvoteButton.classList.remove('voted');
+        } else if (voterVote === -1) {
+            upvoteButton.classList.remove('voted');
+            downvoteButton.classList.add('voted');
+        } else {
+            upvoteButton.classList.remove('voted');
+            downvoteButton.classList.remove('voted');
+        }
+    }
+
     await renderLeaderboard();
 });

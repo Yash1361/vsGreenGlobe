@@ -40,8 +40,8 @@ app.post('/generate', async (req, res) => {
 });
 
 app.post('/vote', async (req, res) => {
-    const { username, title, vote } = req.body;
-    if (!username || !title || !Number.isInteger(vote)) {
+    const { username, title, vote, voter } = req.body;
+    if (!username || !title || !Number.isInteger(vote) || !voter) {
         return res.status(400).send('Invalid request');
     }
 
@@ -56,21 +56,30 @@ app.post('/vote', async (req, res) => {
                 if (!policy.voteCount) {
                     policy.voteCount = 0;
                 }
-                policy.voteCount += vote;
-
-                if (policy.voteCount <= -10) {
-                    // Remove the policy if it reaches -10 votes
-                    userPolicies.policies = userPolicies.policies.filter(p => p.title !== title);
-                } else {
-                    // Update the policy vote count
-                    await policies.updateOne({ username, 'policies.title': title }, { $set: { 'policies.$.voteCount': policy.voteCount } });
+                if (!policy.votes) {
+                    policy.votes = {};
                 }
 
-                // Recalculate the total score
+                let previousVote = policy.votes[voter] || 0;
+                if (previousVote === vote) {
+                    // Revoke the vote
+                    policy.voteCount -= vote;
+                    delete policy.votes[voter];
+                } else {
+                    policy.voteCount += vote - previousVote;
+                    policy.votes[voter] = vote;
+                }
+
+                if (policy.voteCount <= -10) {
+                    userPolicies.policies = userPolicies.policies.filter(p => p.title !== title);
+                } else {
+                    await policies.updateOne({ username, 'policies.title': title }, { $set: { 'policies.$.voteCount': policy.voteCount, 'policies.$.votes': policy.votes } });
+                }
+
                 userPolicies.totalScore = userPolicies.policies.reduce((acc, p) => acc + p.score, 0);
                 await policies.updateOne({ username }, { $set: userPolicies });
 
-                return res.status(200).json({ voteCount: policy.voteCount });
+                return res.status(200).json({ voteCount: policy.voteCount, voterVote: policy.votes[voter] || 0 });
             }
         }
 

@@ -150,11 +150,15 @@ tr {
 }
 
 .voting i.upvote:hover {
-    background-color: rgba(255, 69, 0, 0.2); /* Reddit orange */
+    background-color: rgba(0, 128, 0, 0.2); /* Green for hover */
 }
 
 .voting i.downvote:hover {
-    background-color: rgba(255, 69, 0, 0.2); /* Reddit orange */
+    background-color: rgba(0, 128, 0, 0.2); /* Green for hover */
+}
+
+.voting i.voted {
+    background-color: rgba(0, 128, 0, 0.6); /* Green for voted */
 }
 
 .voting .vote-count {
