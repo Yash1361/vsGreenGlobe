@@ -7,7 +7,7 @@ mapImage.src = 'map3.png'; // Update the path to your image
 let pollutionClouds = [
     { x: 520, y: 280, radius: 170, opacity: 0.68 },
     { x: 410, y: 650, radius: 170, opacity: 0.86 },
-    { x: 260, y: 470, radius: 130, opacity: 0.56 },
+    { x: 260, y: 430, radius: 130, opacity: 0.56 },
     { x: 520, y: 470, radius: 90, opacity: 0.56 }
 ];
 
