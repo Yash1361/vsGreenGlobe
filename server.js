@@ -58,7 +58,17 @@ app.post('/vote', async (req, res) => {
                 }
                 policy.voteCount += vote;
 
-                await policies.updateOne({ username, 'policies.title': title }, { $set: { 'policies.$.voteCount': policy.voteCount } });
+                if (policy.voteCount <= -10) {
+                    // Remove the policy if it reaches -10 votes
+                    userPolicies.policies = userPolicies.policies.filter(p => p.title !== title);
+                } else {
+                    // Update the policy vote count
+                    await policies.updateOne({ username, 'policies.title': title }, { $set: { 'policies.$.voteCount': policy.voteCount } });
+                }
+
+                // Recalculate the total score
+                userPolicies.totalScore = userPolicies.policies.reduce((acc, p) => acc + p.score, 0);
+                await policies.updateOne({ username }, { $set: userPolicies });
 
                 return res.status(200).json({ voteCount: policy.voteCount });
             }
@@ -70,6 +80,7 @@ app.post('/vote', async (req, res) => {
         res.status(500).send('Error updating vote count');
     }
 });
+
 
 
 app.post('/submit', async (req, res) => {

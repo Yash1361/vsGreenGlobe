@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const leaderboardTable = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
 
-    try {
+    async function fetchLeaderboardData() {
         const response = await fetch('http://localhost:3000/leaderboard-data');
-        const data = await response.json();
+        return await response.json();
+    }
+
+    async function renderLeaderboard() {
+        const data = await fetchLeaderboardData();
+        leaderboardTable.innerHTML = '';
 
         data.forEach((user, index) => {
             const row = leaderboardTable.insertRow();
@@ -18,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const policies = user.policies.map((policy, policyIndex) => {
                 return `
-                    <div class="policy-item">
+                    <div class="policy-item" data-username="${user.username}" data-title="${policy.title}">
                         <span>${policyIndex + 1}) ${policy.title}: ${policy.description}</span>
                         <div class="voting">
                             <i class="fas fa-arrow-up upvote" data-username="${user.username}" data-title="${policy.title}"></i>
@@ -32,6 +37,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             cell3.innerHTML = policies;
         });
 
+        addEventListeners();
+    }
+
+    function addEventListeners() {
         document.querySelectorAll('.upvote').forEach(button => {
             button.addEventListener('click', async (event) => {
                 const username = event.target.getAttribute('data-username');
@@ -49,6 +58,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (response.ok) {
                     const result = await response.json();
                     voteCountElement.textContent = result.voteCount;
+                    if (result.voteCount <= -10) {
+                        // Remove the policy from the DOM
+                        event.target.closest('.policy-item').remove();
+                    }
                 }
             });
         });
@@ -70,11 +83,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (response.ok) {
                     const result = await response.json();
                     voteCountElement.textContent = result.voteCount;
+                    if (result.voteCount <= -10) {
+                        // Remove the policy from the DOM
+                        event.target.closest('.policy-item').remove();
+                    }
                 }
             });
         });
-
-    } catch (error) {
-        console.error('Error fetching leaderboard data:', error);
     }
+
+    // Initial rendering of the leaderboard
+    await renderLeaderboard();
 });
