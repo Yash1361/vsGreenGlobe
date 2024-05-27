@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Submission</title>
+    <link rel="stylesheet" href="leaderboard.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Submit a Policy</h1>
+        <form id="policy-form" action="/submit" method="POST">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+            
+            <label for="score">Score:</label>
+            <input type="range" id="score" name="score" min="1" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
+            <output>50</output>
+            
+            <button type="submit">Submit</button>
+        </form>
+        <button id="view-leaderboard">View Leaderboard</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#policy-form').on('submit', function(e) {
+                e.preventDefault();
+                const title = $('#title').val();
+                const description = $('#description').val();
+                const score = $('#score').val();
+                
+                $.ajax({
+                    url: '/submit',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ title, description, score }),
+                    success: function(response) {
+                        alert('Policy submitted successfully!');
+                    },
+                    error: function(error) {
+                        alert('Error submitting policy.');
+                    }
+                });
+            });
+
+            $('#view-leaderboard').on('click', function() {
+                window.location.href = '/leaderboard';
+            });
+        });
+    </script>
+</body>
+</html>
