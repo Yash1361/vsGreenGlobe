@@ -16,7 +16,7 @@ const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 async function connectToDb() {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -89,6 +89,13 @@ app.post('/submit', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'Kinhasa.html'));
+});
+
+app.get('/leaderboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'leaderboard.html'));
+});
 
 app.get('/leaderboard-data', async (req, res) => {
     try {
@@ -102,13 +109,6 @@ app.get('/leaderboard-data', async (req, res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'Kinhasa.html'));
-});
-
-app.get('/leaderboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'leaderboard.html'));
-});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

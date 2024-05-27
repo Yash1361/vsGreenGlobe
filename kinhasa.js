@@ -316,7 +316,7 @@ function showCongratsModal(place) {
     document.body.appendChild(congratsModal);
 
     document.getElementById('check-it-out').addEventListener('click', () => {
-        window.location.href = '/leaderboard';
+        window.location.href = 'leaderboard.html';
     });
 
     document.getElementById('maybe-later').addEventListener('click', () => {
