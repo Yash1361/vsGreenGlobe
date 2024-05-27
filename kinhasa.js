@@ -98,11 +98,15 @@ function calculateScore() {
     const initialAQI = 180;
     const initialHappiness = 20;
 
-    score = Math.max(0, Math.round((initialMoneySpent - moneySpent) * 0.1 + (initialAQI - aqi) * 2 + (happiness - initialHappiness) * 5));
+    
+    if (moneySpent >= 1e9) {
+        score = Math.round((aqi * happiness * 1000000000) / (moneySpent));
+    } else {
+        score = Math.round((aqi * happiness * 1000000) / (moneySpent));
+    }
     scoreElement.textContent = score;
 }
 
-document.querySelector('.calculate-score-button').addEventListener('click', calculateScore);
 
 const implementPolicyButton = document.getElementById('implement-policy-button');
 const policyInput = document.getElementById('policy-input');
@@ -253,4 +257,7 @@ function updateInfoFromResult(text) {
         }
         document.getElementById('happiness-indicator').innerHTML = `<i class="${smileyClass}"></i>`;
     }
+
+    // Calculate score automatically whenever info changes
+    calculateScore();
 }
