@@ -353,14 +353,26 @@ class Particle {
     animate();
   }
   
-  // Function to show the congratulatory modal
+  function getPlaceSuffix(place) {
+    if (place % 10 === 1 && place % 100 !== 11) {
+      return `${place}st`;
+    } else if (place % 10 === 2 && place % 100 !== 12) {
+      return `${place}nd`;
+    } else if (place % 10 === 3 && place % 100 !== 13) {
+      return `${place}rd`;
+    } else {
+      return `${place}th`;
+    }
+  }
+  
   function showCongratsModal(place) {
+    const placeWithSuffix = getPlaceSuffix(place);
     const congratsModal = document.createElement('div');
     congratsModal.className = 'congrats-modal';
     congratsModal.innerHTML = `
       <div class="congrats-modal-content">
         <h2>Congratulations!</h2>
-        <p>You got ${place} place on the leaderboard!</p>
+        <p>You got ${placeWithSuffix} place on the leaderboard!</p>
         <button id="check-it-out">Check it out!!</button>
         <button id="maybe-later">Maybe Later</button>
       </div>
@@ -397,4 +409,3 @@ class Particle {
       console.error('Error submitting policy to leaderboard.');
     }
   }
-  
