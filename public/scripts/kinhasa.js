@@ -282,68 +282,119 @@ function updateInfoFromResult(text) {
     calculateScore();
 }
 
-// Function to show confetti animation
-function showConfetti() {
-    const confettiContainer = document.createElement('div');
-    confettiContainer.id = 'confetti-container';
-    document.body.appendChild(confettiContainer);
-    
-    for (let i = 0; i < 100; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.animationDelay = `${Math.random() * 2}s`;
-        confetti.style.setProperty('--i', Math.random());
-        confettiContainer.appendChild(confetti);
+class Particle {
+    constructor(ctx, x, y) {
+      this.ctx = ctx;
+      this.x = x;
+      this.y = y;
+      this.size = Math.random() * 5 + 1;
+      this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      this.velocityX = (Math.random() - 0.5) * 10;
+      this.velocityY = (Math.random() - 0.5) * 10;
+      this.opacity = 1;
     }
-    
-    setTimeout(() => {
-        confettiContainer.remove();
-    }, 5000);
-}
-
-
-// Function to show the congratulatory modal
-function showCongratsModal(place) {
+  
+    update() {
+      this.x += this.velocityX;
+      this.y += this.velocityY;
+      this.opacity -= 0.02;
+    }
+  
+    draw() {
+      this.ctx.globalAlpha = this.opacity;
+      this.ctx.fillStyle = this.color;
+      this.ctx.beginPath();
+      this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.globalAlpha = 1;
+    }
+  }
+  
+  function showParticleBurst() {
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = 0;
+    canvas.style.left = 0;
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.pointerEvents = 'none';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+  
+    const ctx = canvas.getContext('2d');
+    const particles = [];
+  
+    for (let i = 0; i < 600; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      particles.push(new Particle(ctx, x, y));
+    }
+  
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+      particles.forEach((particle, index) => {
+        if (particle.opacity <= 0) {
+          particles.splice(index, 1);
+        } else {
+          particle.update();
+          particle.draw();
+        }
+      });
+  
+      if (particles.length > 0) {
+        requestAnimationFrame(animate);
+      } else {
+        document.body.removeChild(canvas);
+      }
+    }
+  
+    animate();
+  }
+  
+  // Function to show the congratulatory modal
+  function showCongratsModal(place) {
     const congratsModal = document.createElement('div');
     congratsModal.className = 'congrats-modal';
     congratsModal.innerHTML = `
-        <div class="congrats-modal-content">
-            <h2>Congratulations!</h2>
-            <p>You got ${place} place on the leaderboard!</p>
-            <button id="check-it-out">Check it out!!</button>
-            <button id="maybe-later">Maybe Later</button>
-        </div>
+      <div class="congrats-modal-content">
+        <h2>Congratulations!</h2>
+        <p>You got ${place} place on the leaderboard!</p>
+        <button id="check-it-out">Check it out!!</button>
+        <button id="maybe-later">Maybe Later</button>
+      </div>
     `;
     document.body.appendChild(congratsModal);
-
+  
     document.getElementById('check-it-out').addEventListener('click', () => {
-        window.location.href = 'leaderboard.html';
+      window.location.href = 'leaderboard.html';
     });
-
+  
     document.getElementById('maybe-later').addEventListener('click', () => {
-        congratsModal.remove();
+      congratsModal.remove();
     });
-}
-
-async function submitPolicyToLeaderboard(title, description, score, username) {
+  }
+  
+  async function submitPolicyToLeaderboard(title, description, score, username) {
     const response = await fetch('http://localhost:3000/submit', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ title, description, score, username })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ title, description, score, username })
     });
-
+  
     if (response.ok) {
-        const result = await response.json();
-        const place = result.place; // Assuming the server responds with the place
-        if (place) {
-            showConfetti();
-            setTimeout(() => showCongratsModal(place), 3000); // Show modal after confetti
-        }
-        console.log('Policy submitted to leaderboard successfully!');
+      const result = await response.json();
+      const place = result.place; // Assuming the server responds with the place
+      if (place) {
+        showParticleBurst();
+        showCongratsModal(place); // Show modal immediately after burst
+      }
+      console.log('Policy submitted to leaderboard successfully!');
     } else {
-        console.error('Error submitting policy to leaderboard.');
+      console.error('Error submitting policy to leaderboard.');
     }
-}
+  }
+  

@@ -327,8 +327,8 @@ body, html {
 
 /* Existing styles... */
 
-/* Confetti styles */
-#confetti-container {
+/* Particle burst styles */
+#particle-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -339,21 +339,24 @@ body, html {
   z-index: 1000;
 }
 
-.confetti {
+.particle {
   position: absolute;
   width: 10px;
-  height: 20px;
-  background: linear-gradient(to bottom, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff);
-  opacity: 0.7;
-  animation: confetti-fall 2s linear infinite;
+  height: 10px;
+  background: hsl(var(--hue, 0)deg 90% 60%);
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: particle-burst 10s ease-out infinite; /* Increased duration */
 }
 
-@keyframes confetti-fall {
+@keyframes particle-burst {
   0% {
-      transform: translateY(-100vh) rotate(0);
+    transform: translateY(0) scale(1);
+    opacity: 1;
   }
   100% {
-      transform: translateY(100vh) rotate(360deg);
+    transform: translateY(-500px) scale(0);
+    opacity: 0;
   }
 }
 
