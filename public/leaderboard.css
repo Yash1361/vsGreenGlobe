@@ -4,15 +4,16 @@ body {
     margin: 0;
     padding: 20px;
     color: #f2f2f2; /* Light text color */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
 .container {
-    max-width: 85%;
-    margin: auto;
+    max-width: 90%;
+    margin: 0 auto;
     background: #1e1e1e; /* Dark container background */
     padding: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    border-radius: 25px;
     overflow: hidden; /* Ensure child elements are clipped to this container */
     position: relative; /* For pseudo-elements positioning */
 }
@@ -24,16 +25,28 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 123, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(0, 123, 255, 0.1) 50%, rgba(0, 123, 255, 0.1) 75%, transparent 75%, transparent);
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(0, 123, 255, 0.2) 50%, rgba(0, 123, 255, 0.2) 75%, transparent 75%, transparent);
     background-size: 50px 50px;
     z-index: -1; /* Place it behind the content */
+    animation: glow 2s infinite alternate; /* Add glowing animation */
+}
+
+@keyframes glow {
+    from {
+        opacity: 0.2;
+    }
+    to {
+        opacity: 0.4;
+    }
 }
 
 h1 {
     text-align: center;
     color: #007BFF; /* Blue color for heading */
     text-transform: uppercase; /* Make the text uppercase */
-    letter-spacing: 2px; /* Increase the spacing between letters */
+    letter-spacing: 3px; /* Increase the spacing between letters */
+    font-size: 2.5rem; /* Make the heading larger */
+    margin-bottom: 20px;
 }
 
 table {
@@ -41,10 +54,11 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #2e2e2e; /* Darker table background */
-    border-radius: 10px; /* Rounded corners */
+    border-radius: 15px; /* Rounded corners */
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow to table */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Add shadow to table */
     animation: slideIn 1s ease-out; /* Slide-in animation */
+    position: relative;
 }
 
 @keyframes slideIn {
@@ -56,6 +70,17 @@ table {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+table::before { /* Create a gradient overlay on the table */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)); /* Transparent gradient */
+    z-index: -1;
 }
 
 table, th, td {
@@ -86,6 +111,7 @@ tr:nth-child(even) {
 tr:hover {
     background-color: #3a3a3a; /* Slightly lighter background on hover */
     transform: scale(1.02); /* Slightly enlarge on hover */
+    cursor: pointer; /* Show hand cursor on hover */
 }
 
 td {
@@ -96,12 +122,14 @@ td {
 td:nth-child(1) {
     width: 50px;
     text-align: center;
+    font-weight: bold;
 }
 
 td:nth-child(2) {
     width: 150px;
     font-weight: bold;
-    color: white; /* Blue color for usernames */
+    color: white; /* white color for usernames */
+    font-size: 1.1rem; /* Increase font size */
 }
 
 td:nth-child(3) {
@@ -111,12 +139,13 @@ td:nth-child(3) {
 td:nth-child(4) {
     width: 100px;
     text-align: center;
+    font-weight: bold;
 }
 
 /* Adding subtle glowing border on focus/hover */
 table:hover {
     border-color: #007BFF;
-    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 30px rgba(0, 123, 255, 0.8);
 }
 
 /* Adding more refined hover effect for rows */
@@ -134,19 +163,22 @@ tr {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 5px;
 }
 
 .voting {
     display: flex;
     align-items: center;
+    font-size: 1.2rem;
 }
 
 .voting i {
     cursor: pointer;
     margin: 0 5px;
-    padding: 10px;
+    padding: 8px;
     border-radius: 50%;
     transition: background-color 0.3s;
+    font-size: 1.5rem;
 }
 
 .voting i.upvote:hover {
@@ -154,7 +186,7 @@ tr {
 }
 
 .voting i.downvote:hover {
-    background-color: rgba(0, 128, 0, 0.2); /* Green for hover */
+    background-color: rgba(255, 0, 0, 0.2); /* Red for hover */
 }
 
 .voting i.voted {
@@ -164,4 +196,5 @@ tr {
 .voting .vote-count {
     margin: 0 5px;
     font-size: 16px;
+    font-weight: bold;
 }
