@@ -1,0 +1,684 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+  <title>Project Green Globe</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    html {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000000 url(/globe/loading.gif) center center no-repeat;
+      color: #ffffff;
+      font-family: sans-serif;
+      font-size: 13px;
+      line-height: 20px;
+      height: 200%;
+      /* Adjusted height to accommodate two screens */
+      overflow: hidden;
+    }
+
+    #page1,
+    #page2 {
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    #page2 {
+      background-color: #111;
+      color: white;
+      transform: translateY(100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      /* Ensures everything in page2 is in a column */
+      text-align: center;
+      height: 100vh;
+      /* Full height of the viewport */
+      font-size: 30px;
+      background: url('/globe/background.png') no-repeat center center;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+    #info {
+      font-size: 11px;
+      position: absolute;
+      bottom: 5px;
+      background-color: rgba(0, 0, 0, 0.8);
+      border-radius: 3px;
+      right: 10px;
+      padding: 10px;
+    }
+
+    #currentInfo {
+      width: 270px;
+      position: absolute;
+      left: 20px;
+      top: 63px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 10px;
+    }
+
+    a {
+      color: #aaa;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .bull {
+      padding: 0 5px;
+      color: #555;
+    }
+
+    #title {
+      position: absolute;
+      top: 20px;
+      width: 270px;
+      left: 20px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+      font: 20px Georgia;
+      padding: 10px;
+    }
+
+    .year {
+      font: 16px Georgia;
+      line-height: 26px;
+      height: 30px;
+      text-align: center;
+      float: left;
+      width: 90px;
+      color: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      -webkit-transition: all 0.1s ease-out;
+      transition: all 0.1s ease-out;
+    }
+
+    .year:hover,
+    .year.active {
+      font-size: 23px;
+      color: #fff;
+    }
+
+    .arrow {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 30px;
+      border: solid white;
+      border-width: 0 3px 3px 0;
+      display: inline-block;
+      padding: 3px;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+
+    .arrow.down {
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateX(-50%) translateY(0) rotate(45deg);
+      }
+
+      40% {
+        transform: translateX(-50%) translateY(10px) rotate(45deg);
+      }
+
+      60% {
+        transform: translateX(-50%) translateY(5px) rotate(45deg);
+      }
+    }
+
+    #ce span {
+      display: none;
+    }
+
+    #ce {
+      width: 107px;
+      height: 55px;
+      display: block;
+      position: absolute;
+      bottom: 1px;
+      left: 20px;
+      background: url(/globe/ce.png);
+    }
+
+    /* #container {
+        cursor: crosshair;
+      }*/
+    #welcomeMessage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 24px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      z-index: 100;
+    }
+
+    #greenGlobe {
+      color: rgb(5, 168, 5);
+      font-family: 'Arial Black', Gadget, sans-serif;
+      font-weight: bold;
+    }
+
+    .fade-in-text {
+      color: rgb(167, 180, 167);
+      font-family: 'Arial Black', Gadget, sans-serif;
+      opacity: 0;
+      transition: opacity 2s;
+      transition-delay: 0.5s;
+      margin: 20px;
+      margin-bottom: 8px;
+      /*animation: fadeInUp 1s ease forwards;*/
+
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      z-index: 2;
+
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-text2 {
+
+      font-family: 'Arial Black', Gadget, sans-serif;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 2s;
+      transition-delay: 0.5s;
+      margin: 20px;
+
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      z-index: 2;
+      margin-top: 8px;
+      /* Reduce top margin */
+      margin-bottom: 20px;
+      /* Adjust as necessary */
+    }
+
+    .fade-in-text3 {
+      color: rgb(167, 180, 167);
+
+      font-family: 'Arial Black', Gadget, sans-serif;
+      opacity: 0;
+      transition: opacity 2s;
+      transition-delay: 0.5s;
+      margin: 20px;
+
+      border-radius: 5px;
+      /* Optional: rounds the corners of the background box */
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      z-index: 2;
+      margin-top: 7px;
+      /* Reduce top margin */
+      margin-bottom: 8px;
+
+    }
+
+    .fade-in-text4 {
+      color: rgb(167, 180, 167);
+
+      font-family: 'Arial Black', Gadget, sans-serif;
+      opacity: 0;
+      transition: opacity 2s;
+      transition-delay: 0.5s;
+      margin: 20px;
+
+      border-radius: 5px;
+      /* Optional: rounds the corners of the background box */
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      z-index: 2;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      /* Reduce top margin */
+
+    }
+
+    .fade-in-text5 {
+      color: rgb(167, 180, 167);
+
+      font-family: 'Arial Black', Gadget, sans-serif;
+      opacity: 0;
+      transition: opacity 2s;
+      transition-delay: 0.5s;
+      margin: 20px;
+
+      border-radius: 5px;
+      /* Optional: rounds the corners of the background box */
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      z-index: 2;
+      margin-top: 8px;
+      /* Reduce top margin */
+
+    }
+
+    .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #444;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: 0;
+      /*animation: fadeIn 2s ease forwards;*/
+      animation-delay: 1s;
+      /* Delay appearance of the button */
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .button-small {
+      font-size: 12px;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+
+    }
+
+    .button:hover {
+      background-color: #666;
+      /* Darker shade on hover */
+      transform: scale(1.1);
+      /* Slightly increase size */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      /* Add shadow for depth */
+    }
+
+    .translucent-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      /* Adjust opacity as needed */
+      z-index: 1;
+      /* Ensures the overlay is just above the map background */
+    }
+
+    /* Existing CSS */
+
+    .modal {
+      display: none; /* Hidden by default */
+    position: fixed; /* Use fixed positioning to keep the modal in place during scrolling */
+    left: 50%; /* Position at 50% of the viewport from the left */
+    top: 50%; /* Position at 50% of the viewport from the top */
+    transform: translate(-50%, -50%); /* Offset the modal back by half its width and height to center it */
+    width: 30%; /* Adjusted width for a more box-like appearance */
+    min-width: 300px; /* Minimum width to ensure usability */
+    background-image: url('/globe/bg.jpg'); /* Path to your image */
+    background-size: cover; /* Cover ensures the image covers the entire div */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    padding: 40px; /* Adjust padding if necessary */
+    border-radius: 10px; /* Maintain any existing styles for border-radius */
+    border: 1px solid #888; /* Optional: border to define modal edges */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    flex-direction: column;
+    align-items: center; /* Centers the inputs and button */
+    color: #fff; /* Adjust text color for better visibility if needed */
+    box-sizing: border-box; /* Includes padding and border in the width */
+    }
+    .modal-content h2, .modal-content input, .modal-content button {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Adds shadow to text for better readability */
+}
+.modal-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+    z-index: -1; /* Ensures the overlay does not cover the content */
+}
+
+    input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%; /* Make inputs and button expand to full width of the modal-content */
+    margin-bottom: 10px; /* Spacing between fields */
+    background-color: #222; /* Darker background for input fields */
+    color: #fff; /* White text color for input */
+    border: 1px solid #555; /* Subtle border for inputs */
+    padding: 10px; /* Padding inside input fields */
+}
+.button2 {
+  margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #444;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: 1;
+      /*animation: fadeIn 2s ease forwards;*/
+      animation-delay: 1s;
+      /* Delay appearance of the button */
+      transition: all 0.3s ease;
+      z-index: 2;
+}
+.button2:hover {
+      background-color: #666;
+      /* Darker shade on hover */
+      transform: scale(1.1);
+      /* Slightly increase size */
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      /* Add shadow for depth */
+    }
+    /*.modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      /* 15% from the top and centered 
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      /* Could be more or less, depending on screen size 
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      animation: animatetop 0.4s;
+    }*/
+
+    @keyframes animatetop {
+      from {
+        top: -300px;
+        opacity: 0
+      }
+
+      to {
+        top: 0;
+        opacity: 1
+      }
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #918989;
+      font-size: 40px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+
+    }
+
+    .close:hover,
+    .close:focus {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      cursor: pointer;
+      transform: scale(1.3);
+    }
+
+    .blurred {
+      filter: blur(5px);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mainContent">
+    <div id="page1">
+      <div id="welcomeMessage">Welcome to Project <span id="greenGlobe">Green Globe</span></div>
+      <div id="container"></div>
+      <div id="title">AQI (Air Quality Index)</div>
+      <div id="currentInfo">
+        <span id="year1990" class="year">2016</span>
+        <span id="year1995" class="year">2020</span>
+        <span id="year2000" class="year">2024</span>
+      </div>
+      <div class="arrow down"></div>
+    </div>
+    <div id="page2">
+      <div class="translucent-overlay"></div>
+      <div class="fade-in-text" id="fadeInText">Ambient air pollution and household air pollution are associated with
+      </div>
+      <div class="fade-in-text2" id="fadeInText2" style="color: red; font-weight: bold;">6.7 million deaths anually.
+      </div>
+      <div class="fade-in-text3" id="fadeInText3">But through the project</div>
+      <div class="fade-in-text4" id="fadeInText4" style="color: rgb(0, 255, 21); font-weight: bold;">Green Globe</div>
+      <div class="fade-in-text5" id="fadeInText5">we can impact these numbers.
+      </div>
+      <button class="button" id="signin">Sign In</button>
+      <button class="button" id="signup">Sign Up</button>
+
+
+    </div>
+  </div>
+  <!-- Sign In Modal -->
+  <div id="signInModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&larr;</span>
+      <h2>Sign In</h2>
+      <input type="text" placeholder="Username" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit" class="button2">Sign In</button>
+    </div>
+  </div>
+
+  <!-- Sign Up Modal -->
+  <div id="signUpModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&larr;</span>
+      <h2>Sign Up</h2>
+      <input type="text" placeholder="Username" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit" class="button2">Sign Up</button>
+    </div>
+  </div>
+
+
+  <script type="text/javascript" src="/globe/third-party/Detector.js"></script>
+  <script type="text/javascript" src="/globe/third-party/three.min.js"></script>
+  <script type="text/javascript" src="/globe/third-party/Tween.js"></script>
+  <script type="text/javascript" src="/globe/globe.js"></script>
+  <script type="text/javascript">
+    if (!Detector.webgl) {
+      Detector.addGetWebGLMessage();
+    } else {
+      var years = ['1990', '1995', '2000'];
+      var container = document.getElementById('container');
+      var globe = new DAT.Globe(container);
+
+      console.log(globe);
+      var i, tweens = [];
+
+      var settime = function (globe, t) {
+        return function () {
+          new TWEEN.Tween(globe).to({ time: t / years.length }, 500).easing(TWEEN.Easing.Cubic.EaseOut).start();
+          var y = document.getElementById('year' + years[t]);
+          if (y.getAttribute('class') === 'year active') {
+            return;
+          }
+          var yy = document.getElementsByClassName('year');
+          for (i = 0; i < yy.length; i++) {
+            yy[i].setAttribute('class', 'year');
+          }
+          y.setAttribute('class', 'year active');
+        };
+      };
+
+      for (var i = 0; i < years.length; i++) {
+        var y = document.getElementById('year' + years[i]);
+        y.addEventListener('mouseover', settime(globe, i), false);
+      }
+
+      var xhr;
+      TWEEN.start();
+
+      xhr = new XMLHttpRequest();
+      xhr.open('GET', '/globe/population909500.json', true);
+      xhr.onreadystatechange = function (e) {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            window.data = data;
+            for (i = 0; i < data.length; i++) {
+              globe.addData(data[i][1], { format: 'magnitude', name: data[i][0], animated: true });
+            }
+            globe.createPoints();
+            settime(globe, 0)();
+            globe.animate();
+            document.body.style.backgroundImage = 'none'; // remove loading
+            startAutoTransition();
+          }
+        }
+      };
+      xhr.send(null);
+
+      function startAutoTransition() {
+        let currentIndex = 0;
+        setInterval(function () {
+          currentIndex = (currentIndex + 1) % years.length;
+          settime(globe, currentIndex)();
+        }, 1000); // Change the interval time as needed
+      }
+
+      // Scroll down function for the arrow button
+      document.querySelector('.arrow').addEventListener('click', function () {
+        document.getElementById('page1').style.transform = 'translateY(-100%)';
+        document.getElementById('page2').style.transform = 'translateY(0)';
+      });
+
+      window.addEventListener('wheel', function (event) {
+        if (event.deltaY > 0) {
+          document.getElementById('page1').style.transform = 'translateY(-100%)';
+          document.getElementById('page2').style.transform = 'translateY(0)';
+          var text = document.getElementById('fadeInText');
+          var text2 = document.getElementById('fadeInText2');
+          var text3 = document.getElementById('fadeInText3');
+          var text4 = document.getElementById('fadeInText4');
+          var text5 = document.getElementById('fadeInText5');
+          var signin = document.getElementById('signin');
+          var signup = document.getElementById('signup');
+
+          // Debug log
+          console.log('Page 2 should now be visible');
+
+          // Trigger the fade-in effect
+          setTimeout(function () {
+            console.log('Fading in text1');
+            text.style.opacity = 1;
+          }, 500); // Delay the fade-in to match the page transition
+          setTimeout(function () {
+            console.log('Fading in text2');
+            text2.style.opacity = 1;
+          }, 2000);
+          setTimeout(function () {
+            console.log('Fading in text3');
+            text3.style.opacity = 1;
+          }, 4000);
+          setTimeout(function () {
+            console.log('Fading in text4');
+            text4.style.opacity = 1;
+          }, 5000);
+          setTimeout(function () {
+            console.log('Fading in text5');
+            text5.style.opacity = 1;
+          }, 6000);
+          setTimeout(function () {
+            console.log('Fading in text6');
+            signin.style.opacity = 1;
+          }, 7000);
+          setTimeout(function () {
+            console.log('Fading in text7');
+            signup.style.opacity = 1;
+          }, 7000);
+
+        } else if (event.deltaY < 0) {
+          document.getElementById('page1').style.transform = 'translateY(0)';
+          document.getElementById('page2').style.transform = 'translateY(100%)';
+        }
+      });
+
+      window.onload = function () {
+        // Wait for everything to load
+        setTimeout(function () {
+          var welcomeMessage = document.getElementById('welcomeMessage');
+
+          // Fade in the welcome message
+          welcomeMessage.style.opacity = 1; // Start fading in
+          console.log("hi");
+          setTimeout(function () {
+            // After showing the message, start fading out
+            welcomeMessage.style.opacity = 0; // Fade out after display
+
+            // Additional timeout to set display to none after the fade transition completes
+            setTimeout(function () {
+              welcomeMessage.style.display = 'none'; // This removes it from the document flow entirely
+            }, 2000); // This should match the duration of the opacity transition
+          }, 4000); // Display duration in milliseconds (2 seconds shown)
+        }, 2000); // Delay before starting the fade in
+      };
+      document.addEventListener('scroll', function () {
+        var scrollPercentage = (window.scrollY / window.innerHeight) * 100;
+        var smoke = document.getElementById('smokeEffect');
+        smoke.style.opacity = 1 - (scrollPercentage / 100);
+      });
+      /*document.getElementById('signin').addEventListener('click', function() {
+        window.location.href = '/globe/signin.html'; // Redirect to Sign In page
+      });
+      document.getElementById('signup').addEventListener('click', function() {
+        window.location.href = '/globe/signup.html'; // Redirect to Sign Up page
+      });*/
+
+      //<script>
+      document.getElementById('signin').onclick = function () {
+        document.getElementById('mainContent').classList.add('blurred');
+        document.getElementById('signInModal').style.display = 'block';
+      };
+
+      document.getElementById('signup').onclick = function () {
+        document.getElementById('mainContent').classList.add('blurred');
+        document.getElementById('signUpModal').style.display = 'block';
+      };
+
+      var closeButtons = document.getElementsByClassName('close');
+      for (var i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].onclick = function () {
+          var modals = document.getElementsByClassName('modal');
+          for (var j = 0; j < modals.length; j++) {
+            modals[j].style.display = 'none';
+          }
+          document.getElementById('mainContent').classList.remove('blurred');
+        }
+      };
+    }
+
+
+
+  </script>
+</body>
+
+</html>
