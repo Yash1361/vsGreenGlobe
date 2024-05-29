@@ -14,7 +14,7 @@ const API_KEY = 'AIzaSyDCxq-CSoFyziFcEVskDXib91sIsVMQU3g'; // Replace with your 
 const url = 'mongodb://localhost:27017';
 const dbName = 'leaderboardDB';
 const SECRET_KEY = 'your_secret_key'; // Replace with a strong secret key
-const SENDGRID_API_KEY = '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'; // Replace with your SendGrid API key
+const SENDGRID_API_KEY = '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'; // Replace with your SendGrid API key
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
