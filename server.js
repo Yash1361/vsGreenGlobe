@@ -6,6 +6,7 @@ const path = require('path');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
 
 const app = express();
 const PORT = 3000;
@@ -13,14 +14,19 @@ const API_KEY = 'AIzaSyDCxq-CSoFyziFcEVskDXib91sIsVMQU3g'; // Replace with your 
 const url = 'mongodb://localhost:27017';
 const dbName = 'leaderboardDB';
 const SECRET_KEY = 'your_secret_key'; // Replace with a strong secret key
+const SENDGRID_API_KEY = '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'; // Replace with your SendGrid API key
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-app.use(cors()); // Allow all origins
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/globe', express.static(path.join(__dirname, 'globe'))); // Serve files from the globe directory
+
+sgMail.setApiKey(SENDGRID_API_KEY);
+
+const otps = {}; // To store OTPs temporarily
 
 async function connectToDb() {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -53,15 +59,50 @@ app.post('/signup', async (req, res) => {
             return res.status(400).send('Username or email already exists');
         }
 
+        const otp = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit OTP
+        otps[email] = otp;
+
+        // Send OTP email using SendGrid
+        const msg = {
+            to: email,
+            from: 'yashaggarwal3011@gmail.com', // Replace with your email
+            subject: 'Your OTP Code',
+            text: `Your OTP code is ${otp}`,
+        };
+
+        await sgMail.send(msg);
+
+        res.status(200).send('OTP sent to email');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error signing up');
+    }
+});
+
+app.post('/verify-otp', async (req, res) => {
+    const { email, otp, username, password } = req.body;
+    if (!email || !otp || !username || !password) {
+        return res.status(400).send('All fields are required');
+    }
+
+    if (otps[email] !== parseInt(otp, 10)) {
+        return res.status(400).send('Invalid OTP');
+    }
+
+    try {
+        const db = await connectToDb();
+        const users = db.collection('users');
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = { username, email, password: hashedPassword };
         await users.insertOne(newUser);
 
         const token = jwt.sign({ username, email }, SECRET_KEY, { expiresIn: '1h' });
+        delete otps[email]; // Remove the OTP after verification
         res.status(200).json({ token, username });
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error signing up');
+        res.status(500).send('Error verifying OTP');
     }
 });
 

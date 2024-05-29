@@ -8,7 +8,7 @@ document.getElementById('signup').onclick = function() {
 
 document.querySelectorAll('.close').forEach(closeButton => {
     closeButton.onclick = function() {
-        closeButton.parentElement.parentElement.style.display = 'none';
+      closeButton.parentElement.parentElement.style.display = 'none';
     };
 });
 
@@ -33,7 +33,7 @@ document.getElementById('signin-submit').onclick = async function() {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
-        window.location.href = 'Kinhasa.html?username=' + data.username;
+        window.location.href = `Kinhasa.html?username=${data.username}`;
     } else {
         alert('Invalid credentials');
     }
@@ -63,15 +63,36 @@ document.getElementById('signup-submit').onclick = async function() {
     });
 
     if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('username', data.username);
-        window.location.href = 'Kinhasa.html?username=' + data.username;
+        document.getElementById('signUpModal').style.display = 'none';
+        document.getElementById('otpModal').style.display = 'block';
     } else {
         alert('Username or email already exists');
     }
 };
 
+document.getElementById('otp-submit').onclick = async function() {
+    const otp = document.getElementById('otp-code').value;
+    const username = document.getElementById('signup-username').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    const response = await fetch('http://localhost:3000/verify-otp', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ otp, email, username, password })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('username', data.username);
+        window.location.href = `Kinhasa.html?username=${data.username}`;
+    } else {
+        alert('Invalid OTP');
+    }
+};
 
 if (!Detector.webgl) {
     Detector.addGetWebGLMessage();
@@ -218,23 +239,23 @@ if (!Detector.webgl) {
 
     //<script>
     document.getElementById('signin').onclick = function () {
-        document.getElementById('mainContent').classList.add('blurred');
-        document.getElementById('signInModal').style.display = 'block';
+      document.getElementById('mainContent').classList.add('blurred');
+      document.getElementById('signInModal').style.display = 'block';
     };
 
     document.getElementById('signup').onclick = function () {
-        document.getElementById('mainContent').classList.add('blurred');
-        document.getElementById('signUpModal').style.display = 'block';
+      document.getElementById('mainContent').classList.add('blurred');
+      document.getElementById('signUpModal').style.display = 'block';
     };
 
     var closeButtons = document.getElementsByClassName('close');
     for (var i = 0; i < closeButtons.length; i++) {
-        closeButtons[i].onclick = function () {
-            var modals = document.getElementsByClassName('modal');
-            for (var j = 0; j < modals.length; j++) {
-                modals[j].style.display = 'none';
-            }
-            document.getElementById('mainContent').classList.remove('blurred');
+      closeButtons[i].onclick = function () {
+        var modals = document.getElementsByClassName('modal');
+        for (var j = 0; j < modals.length; j++) {
+          modals[j].style.display = 'none';
         }
+        document.getElementById('mainContent').classList.remove('blurred');
+      }
     };
 }
