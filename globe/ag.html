@@ -1,3 +1,82 @@
-<html>
-    bj
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutorial</title>
+<style>
+    body, html {
+        height: 100%;
+        width: 150%;
+        margin: 0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #887d7d;
+        /* Gradient background from dark grey to a lighter shade */
+        background: linear-gradient(to right, #2c3e50, #bdc3c7);
+    }
+    .container {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: flex-start; /* Aligns children (image) to the left */
+    }
+    .slide-image {
+        position: relative;
+        left: -17%;
+        opacity: 1;
+        width: 19%;
+        height: auto;
+        transition: left 3s; /* transition: cubic-bezier(.9,.31,1,1); Ensure the transition duration is long enough */
+    }
+    .speech-bubble {
+        position: absolute;
+        left: 20%; /* Adjust this value to position the bubble next to the character */
+        top: 30%; /* Adjust this value as needed */
+        width: 300px; /* Width of the bubble */
+        height: 100px; /* Height of the bubble */
+        background-color: rgb(161, 158, 60);
+        border: 2px solid #666;
+        border-radius: 15px;
+        padding: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+    }
+    .speech-bubble:after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: -5%;
+        width: 0px;
+        height: 0px;
+        border: 12px solid transparent;
+        border-bottom-color: rgb(161, 158, 60);
+        transform: rotate(-90deg);  /* Rotates the tail to point right */
+        transform-origin: right;  /* Ensures rotation around the right edge */
+        border-top: 0;
+        margin-left: -12px;
+        margin-bottom: -12px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <img src="/globe/file.png" alt="Sliding Image" class="slide-image">
+    <div class="speech-bubble">Type your text here...</div>
+</div>
+
+<script>
+    window.onload = function() {
+        console.log("Window loaded and script running.");
+        setTimeout(function() {
+            console.log("Wiat");
+            document.querySelector('.slide-image').style.left = '0%';  // End at 10% from the left
+        }, 1000);
+    };
+</script>
+</body>
 </html>
