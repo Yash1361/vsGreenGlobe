@@ -1,9 +1,38 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const leaderboardTable = document.getElementById('leaderboard').getElementsByTagName('tbody')[0];
-    let currentUser = localStorage.getItem('currentUser') || prompt('Please enter your username:');
-    if (!currentUser) {
-        currentUser = prompt('Please enter your username:');
-        localStorage.setItem('currentUser', currentUser);
+    let currentUser = localStorage.getItem('username');
+
+    async function verifyToken() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return false;
+        }
+
+        try {
+            const response = await fetch('http://localhost:3000/verify-token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                currentUser = data.username;
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
+
+    if (!(await verifyToken())) {
+        window.location.href = 'index.html';
+        return;
     }
 
     // GSAP Setup

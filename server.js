@@ -4,19 +4,23 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const cors = require('cors');
 const path = require('path');
 const { MongoClient } = require('mongodb');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = 3000;
 const API_KEY = 'AIzaSyDCxq-CSoFyziFcEVskDXib91sIsVMQU3g'; // Replace with your actual API key
 const url = 'mongodb://localhost:27017';
 const dbName = 'leaderboardDB';
+const SECRET_KEY = 'your_secret_key'; // Replace with a strong secret key
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-app.use(cors());
+app.use(cors()); // Allow all origins
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/globe', express.static(path.join(__dirname, 'globe'))); // Serve files from the globe directory
 
 async function connectToDb() {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -24,6 +28,79 @@ async function connectToDb() {
     console.log("Connected to MongoDB!");
     return client.db(dbName);
 }
+
+app.post('/signup', async (req, res) => {
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+        return res.status(400).send('All fields are required');
+    }
+
+    if (username.length < 6) {
+        return res.status(400).send('Username must be at least 6 characters long');
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).send('Invalid email address');
+    }
+
+    try {
+        const db = await connectToDb();
+        const users = db.collection('users');
+
+        const existingUser = await users.findOne({ $or: [{ username }, { email }] });
+        if (existingUser) {
+            return res.status(400).send('Username or email already exists');
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = { username, email, password: hashedPassword };
+        await users.insertOne(newUser);
+
+        const token = jwt.sign({ username, email }, SECRET_KEY, { expiresIn: '1h' });
+        res.status(200).json({ token, username });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error signing up');
+    }
+});
+
+app.post('/signin', async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).send('All fields are required');
+    }
+
+    try {
+        const db = await connectToDb();
+        const users = db.collection('users');
+
+        const user = await users.findOne({ username });
+        if (!user || !(await bcrypt.compare(password, user.password))) {
+            return res.status(400).send('Invalid credentials');
+        }
+
+        const token = jwt.sign({ username, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+        res.status(200).json({ token, username });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error signing in');
+    }
+});
+
+app.post('/verify-token', (req, res) => {
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).send('Token is required');
+    }
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        res.status(200).json(decoded);
+    } catch (err) {
+        res.status(401).send('Invalid token');
+    }
+});
 
 app.post('/generate', async (req, res) => {
     const { policyName, policyDescription } = req.body;
@@ -62,7 +139,6 @@ app.post('/vote', async (req, res) => {
 
                 let previousVote = policy.votes[voter] || 0;
                 if (previousVote === vote) {
-                    // Revoke the vote
                     policy.voteCount -= vote;
                     delete policy.votes[voter];
                 } else {
@@ -90,8 +166,6 @@ app.post('/vote', async (req, res) => {
     }
 });
 
-
-
 app.post('/submit', async (req, res) => {
     const { title, description, score, username } = req.body;
     if (!title || !description || !score || !username) {
@@ -102,16 +176,13 @@ app.post('/submit', async (req, res) => {
         const db = await connectToDb();
         const policies = db.collection('policies');
         
-        // Find existing user policies
         let userPolicies = await policies.findOne({ username });
 
         if (userPolicies) {
-            // Append new policy to user's policies
             userPolicies.policies.push({ title, description, score });
             userPolicies.totalScore = userPolicies.policies.reduce((acc, policy) => acc + policy.score, 0);
             await policies.updateOne({ username }, { $set: userPolicies });
         } else {
-            // Insert new user policies
             const newUserPolicies = {
                 username,
                 policies: [{ title, description, score }],
@@ -120,7 +191,6 @@ app.post('/submit', async (req, res) => {
             await policies.insertOne(newUserPolicies);
         }
 
-        // Ensure only top 10 entries remain
         const allPolicies = await policies.find().sort({ totalScore: -1 }).toArray();
         let place = null;
         for (let i = 0; i < allPolicies.length; i++) {
@@ -143,6 +213,10 @@ app.post('/submit', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'globe', 'index.html'));
+});
+
+app.get('/map', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'Kinhasa.html'));
 });
 
