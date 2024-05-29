@@ -11,7 +11,7 @@ const sgMail = require('@sendgrid/mail');
 const app = express();
 const PORT = 3000;
 const API_KEY = 'AIzaSyDCxq-CSoFyziFcEVskDXib91sIsVMQU3g'; // Replace with your actual API key
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb+srv://yashaggarwal3011:ShEt62UC0T176xru@greenglobe.gyrhabg.mongodb.net/?retryWrites=true&w=majority&appName=greenglobe';
 const dbName = 'leaderboardDB';
 const SECRET_KEY = 'your_secret_key'; // Replace with a strong secret key
 const SENDGRID_API_KEY = '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'; // Replace with your SendGrid API key
