@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.setItem('currentUser', currentUser);
     }
 
+    // GSAP Setup
+    gsap.registerPlugin(ScrollTrigger);
+
     async function fetchLeaderboardData() {
         const response = await fetch('http://localhost:3000/leaderboard-data');
         return await response.json();
@@ -17,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         data.forEach((user, index) => {
             const row = leaderboardTable.insertRow();
+            animateNewRow(row);
             const cell1 = row.insertCell(0);
             const cell2 = row.insertCell(1);
             const cell3 = row.insertCell(2);
@@ -87,6 +91,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             upvoteButton.classList.remove('voted');
             downvoteButton.classList.remove('voted');
         }
+    }
+
+    // Function to create a staggered animation for new rows
+    function animateNewRow(row) {
+        gsap.fromTo(
+            row,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: row,
+                    start: "top 100%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
     }
 
     await renderLeaderboard();

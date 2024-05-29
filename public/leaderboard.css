@@ -4,22 +4,23 @@ body {
     margin: 0;
     padding: 20px;
     color: #e0e0e0;
-    overflow-x: hidden; 
-    background: linear-gradient(to bottom, #222, #121212); /* Subtle gradient */
-  }
-  
-  .container {
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #222, #121212);
+}
+
+.container {
     max-width: 80%;
     margin: 30px auto;
-    background: #181818; 
+    background: #181818;
     padding: 30px;
     border-radius: 25px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.8); /* More pronounced shadow */
-  }
-  
-  .container::before {
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.8);
+    perspective: 1500px;
+}
+
+.container::before {
     content: "";
     position: absolute;
     top: -5px;
@@ -28,163 +29,164 @@ body {
     bottom: -5px;
     background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(213, 45, 45, 0.3));
     background-size: 200% 200%;
-    z-index: -1; 
+    z-index: -1;
     animation: glowBorder 4s linear infinite;
-    border-radius: 30px; /* Match container border-radius */
-  }
-  
-  @keyframes glowBorder {
+    border-radius: 30px;
+}
+
+@keyframes glowBorder {
     0% {
-      background-position: 0% 50%;
+        background-position: 0% 50%;
     }
     50% {
-      background-position: 100% 50%;
+        background-position: 100% 50%;
     }
     100% {
-      background-position: 0% 50%;
+        background-position: 0% 50%;
     }
-  }
-  
-  h1 {
+}
+
+h1 {
     text-align: center;
-    color: #007BFF; 
-    text-transform: uppercase; 
+    color: #007BFF;
+    text-transform: uppercase;
     letter-spacing: 5px;
-    font-size: 3rem; 
+    font-size: 3rem;
     margin-bottom: 30px;
-    text-shadow: 0px 0px 10px rgba(0, 123, 255, 0.5); /* Add glow to text */
-  }
-  
-  table {
+    text-shadow: 0px 0px 10px rgba(0, 123, 255, 0.5);
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background-color: transparent; /* Transparent table background */
-    border-radius: 15px; 
+    background-color: transparent;
+    border-radius: 15px;
     overflow: hidden;
-    animation: slideIn 1s ease-out; 
-    backdrop-filter: blur(10px); /* Apply blur effect */
-  }
-  
-  
-  table, th, td {
-    border: 2px solid rgba(255, 255, 255, 0.1); /* Semi-transparent borders */
-  }
-  
-  th,
-  td {
+    animation: slideIn 1s ease-out;
+    backdrop-filter: blur(10px);
+}
+
+table, th, td {
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+th, td {
     padding: 18px;
     text-align: left;
     color: #e0e0e0;
     transition: all 0.3s ease;
-  }
-  
-  th {
+}
+
+th {
     background-color: rgba(255, 255, 255, 0.05);
-    color: white; 
-    text-transform: uppercase; 
+    color: white;
+    text-transform: uppercase;
     letter-spacing: 2px;
     position: sticky;
     top: 0;
-    z-index: 1; 
+    z-index: 1;
     font-weight: 600;
-  }
-  
-  tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.03); 
-  }
-  
-  tr:hover {
+}
+
+tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+tr:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    transform: scale(1.02); 
+    transform: scale(1.02);
     cursor: pointer;
-    box-shadow: 0px 0px 20px rgba(0, 123, 255, 0.3); /* Add a spreading glow */
-  }
-  
-  td {
+    box-shadow: 0px 0px 20px rgba(0, 123, 255, 0.3);
+    transform: scale(1.03) rotateY(5deg);
+}
+
+td {
     vertical-align: top;
     position: relative;
-  }
-  
-  td:nth-child(1) {
+}
+
+td:nth-child(1) {
     width: 50px;
     text-align: center;
     font-weight: 600;
-  }
-  
-  td:nth-child(2) {
+}
+
+td:nth-child(2) {
     width: 150px;
     font-weight: 600;
-    color: #007BFF; 
-    font-size: 1.2rem; 
-  }
-  
-  td:nth-child(3) {
+    color: #007BFF;
+    font-size: 1.2rem;
+}
+
+td:nth-child(3) {
     width: 400px;
-  }
-  
-  td:nth-child(4) {
+}
+
+td:nth-child(4) {
     width: 100px;
     text-align: center;
     font-weight: 600;
-  }
-  
-  .policy-item {
+}
+
+.policy-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 8px;
-  }
-  
-  .voting {
+}
+
+.voting {
     display: flex;
     align-items: center;
-    font-size: 1.3rem;
-  }
-  
-  .voting i {
+    font-size: 1rem;
+}
+
+.voting i {
     cursor: pointer;
-    margin: 0 8px;
-    padding: 10px;
+    margin: 0 4px;
+    padding: 5px;
     border-radius: 50%;
     transition: all 0.3s ease;
-    font-size: 1.6rem;
-    background-color: rgba(255, 255, 255, 0.05); /* Subtle background for icons */
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Add a slight shadow to icons */
-  }
-  
-  .voting i:hover {
-    transform: scale(1.1); /* Make icons slightly larger on hover */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Increase shadow on hover */
-  }
-  
-  .voting i.upvote:hover {
-    background-color: rgba(0, 128, 0, 0.2); 
-  }
-  
-  .voting i.downvote:hover {
+    font-size: 1.3rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    transform-style: preserve-3d;
+}
+
+.voting i:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.voting i.upvote:hover {
+    background-color: rgba(0, 128, 0, 0.2);
+}
+
+.voting i.downvote:hover {
     background-color: rgba(255, 0, 0, 0.2);
-  }
-  
-  .voting i.voted {
+}
+
+.voting i.voted {
     color: white;
     background-color: #007BFF;
-  }
-  
-  .voting .vote-count {
+}
+
+.voting .vote-count {
     margin: 0 5px;
     font-size: 16px;
     font-weight: 600;
-  }
-  
-  /* Optional: Add a subtle glowing effect on body scroll */
-  body::-webkit-scrollbar-track {
+}
+
+body::-webkit-scrollbar-track {
     background-color: transparent;
-  }
-  body::-webkit-scrollbar-thumb {
+}
+
+body::-webkit-scrollbar-thumb {
     background-color: rgba(0, 123, 255, 0.2);
     border-radius: 10px;
-  }
-  body::-webkit-scrollbar-thumb:hover {
+}
+
+body::-webkit-scrollbar-thumb:hover {
     background-color: rgba(0, 123, 255, 0.5);
-  }
+}
