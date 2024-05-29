@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            width: 150%;
+            /* Note: You might want to change this to 100% to ensure it fits all screens properly */
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #887d7d;
+            /* This can be removed if the image should take full precedence */
+            background-image: url('/globe/snaps/back.jpg');
+            /* Add your image path here */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* Optional: to keep the background fixed during scrolling */
+        }
+
+        .container {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .slide-image {
+            position: relative;
+            left: -17%;
+            opacity: 1;
+            width: 20%;
+            height: auto;
+            transition: left 3s;
+        }
+
+        .speech-bubble {
+            opacity: 0;
+            position: absolute;
+            left: 20%;
+            top: 30%;
+            width: 300px;
+            height: auto;
+            background-color: rgb(161, 158, 60);
+            border: 2px solid #666;
+            border-radius: 15px;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 18px;
+            color: #333;
+            animation: fadeIn 2s ease 2s forwards;
+            word-wrap: break-word;
+            /* Ensures long words go to the next line */
+            overflow: hidden;
+            /* Hides any overflow */
+            white-space: pre-wrap;
+            /* This CSS property will handle spacing and wrapping */
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: -5%;
+            width: 0;
+            height: 0;
+            border: 12px solid transparent;
+            border-bottom-color: rgb(161, 158, 60);
+            transform: rotate(-90deg);
+            transform-origin: right;
+            border-top: 0;
+            margin-left: -12px;
+            margin-bottom: -12px;
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #444;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #666;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Additional styles for image positioning */
+        #associatedImage {
+            position: absolute;
+            /* Make sure it's not relative to potentially overlapping elements */
+            right: -543px;
+            top: 30%;
+            z-index: 10;
+            /* Ensures it's above other content */
+            width: 300px;
+            /* Adjust width as needed */
+            height: auto;
+            transition: opacity 1s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="/globe/file.png" alt="Sliding Image" class="slide-image">
+        <div class="speech-bubble" id="speechBubble"></div>
+        <img id="associatedImage" src="" alt="Associated Image"
+            style="display: none; position: relative; right: -530px; top: 30%;">
+
+    </div>
+    <div class="button-container">
+        <button id="nextButton">Next</button>
+        <button id="skipButton">Skip the Tutorial</button>
+        <button id="restart">Restart Tutorial</button>
+    </div>
+
+    <script>
+        const textAndImages = [
+            { text: "Congratulations!!! Mr. Mayor. I guess youre the escapegoat they have chosen...", image: "" },
+            { text: "Anyway... without wasting anymore time. Cosmoriya is heavily polluted and you need to clean it ASAP...", image: "/globe/snaps/map_cosmoriya.png" },
+            { text: "You can't spend a lot of money and neither people are happy with the way things currently are...", image: "/globe/snaps/info.png" },
+            { text: "This is your action's tab where you can implement upto 5 policies by naming and describing it...", image: "/globe/snaps/actions_tab.png" },
+            { text: "Remember, every policy will impact all the indexes in the info tab positively or negatively...", image: "/globe/snaps/info.png" },
+            { text: "And last but not the least, this is the leaderboard where you can see policies and their effects implemented by other world leaders...", image: "/globe/snaps/leaderboard.png" },
+            { text: "Choose Wisely. GOOD LUCK!!!", image: "" }
+
+
+        ];
+        let currentIndex = 0;
+
+        let typingInterval = null;  // Variable to keep track of the interval
+
+        function typeText(data) {
+            let i = 0;
+            const imageElement = document.getElementById('associatedImage');
+            if (typingInterval) {
+                clearInterval(typingInterval);
+            }
+            document.getElementById('speechBubble').innerText = '';
+            typingInterval = setInterval(() => {
+                if (i < data.text.length) {
+                    document.getElementById('speechBubble').innerText += data.text[i];
+                    i++;
+                } else {
+                    clearInterval(typingInterval);
+                }
+            }, 25); // Speed of typing in milliseconds
+            if (data.image) {
+                imageElement.src = data.image;
+                imageElement.style.display = 'block'; // Show image if it exists
+            } else {
+                imageElement.style.display = 'none'; // Hide image if not associated
+            }
+        }
+
+        document.getElementById('nextButton').addEventListener('click', function () {
+            if (currentIndex < textAndImages.length - 1) {
+                currentIndex++;
+                typeText(textAndImages[currentIndex]);
+            } else {
+                this.disabled = true;
+            }
+        });
+
+
+
+        window.onload = function () {
+            setTimeout(() => {
+                document.querySelector('.slide-image').style.left = '0%';
+                typeText(textAndImages[0]); // Initialize with the first text and image
+            }, 2000);
+        };
+
+        /*const imageElement = document.getElementById('associatedImage');
+        if (data.image) {
+            imageElement.src = data.image;
+            imageElement.style.display = 'block'; // Explicitly set display to block
+            imageElement.style.opacity = 1; // Ensure it's fully visible
+        } else {
+            imageElement.style.display = 'none'; // Hide it if no associated image
+        }*/
+
+        // Event listener for the Restart button
+        document.getElementById('restart').addEventListener('click', function () {
+            console.log("what");
+            window.location.reload(); // Reloads the current page
+        });
+
+    </script>
+</body>
+
+</html>
