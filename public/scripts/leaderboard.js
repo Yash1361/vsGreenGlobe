@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // GSAP Setup
     gsap.registerPlugin(ScrollTrigger);
 
+    // Container and header animation
+    gsap.from(".container", { duration: 1, opacity: 0, y: -50, ease: "power2.out" });
+    gsap.from("h1", { duration: 1.5, opacity: 0, scale: 0.5, ease: "back.out(1.7)" });
+
     async function fetchLeaderboardData() {
         const response = await fetch('http://localhost:3000/leaderboard-data');
         return await response.json();
