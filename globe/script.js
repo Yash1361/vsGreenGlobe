@@ -155,11 +155,6 @@ if (!Detector.webgl) {
         }, 1000); // Change the interval time as needed
     }
 
-    // Scroll down function for the arrow button
-    document.querySelector('.arrow').addEventListener('click', function () {
-        document.getElementById('page1').style.transform = 'translateY(-100%)';
-        document.getElementById('page2').style.transform = 'translateY(0)';
-    });
 
     window.addEventListener('wheel', function (event) {
         if (event.deltaY > 0) {
@@ -180,7 +175,7 @@ if (!Detector.webgl) {
             setTimeout(function () {
                 console.log('Fading in text1');
                 text.style.opacity = 1;
-            }, 500); // Delay the fade-in to match the page transition
+            }, 5); // Delay the fade-in to match the page transition
             setTimeout(function () {
                 console.log('Fading in text2');
                 text2.style.opacity = 1;
