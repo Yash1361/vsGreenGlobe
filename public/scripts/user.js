@@ -32,32 +32,34 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add badge based on rank
         const rank = data.rank;
         let badge = document.createElement('i');
-        badge.classList.add('badge', 'fas');
+        badge.classList.add('badge', 'fas', 'fa-medal'); // Ensure all relevant classes are added
         
         if (rank === 1) {
-            badge.classList.add('fa-medal', 'gold');
+            badge.classList.add('gold');
         } else if (rank === 2) {
-            badge.classList.add('fa-medal', 'silver');
+            badge.classList.add('silver');
         } else if (rank === 3) {
-            badge.classList.add('fa-medal', 'bronze');
+            badge.classList.add('bronze');
         }
 
         if (rank >= 1 && rank <= 3) {
             userCard.appendChild(badge);
         }
 
+        // Populate policies list with animations
         const policiesList = document.getElementById('policiesList');
         if (data.policies && Array.isArray(data.policies)) {
             data.policies.forEach(policy => {
                 const li = document.createElement('li');
                 li.textContent = `${policy.title}: ${policy.description} (Score: ${policy.score})`;
                 policiesList.appendChild(li);
+                animateNewRow(li); // Animate new row
             });
         } else {
             console.warn("Warning: 'data.policies' is not an array. Check backend response.");
         }
   
-        // --- Populate Voted Policies List ---
+        // Populate voted policies list with animations
         const votesList = document.getElementById('votesList');
         const myUsername = urlParams.get('username'); // Get the currently logged-in user's username
 
@@ -68,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const li = document.createElement('li');
                     li.textContent = `${policy.title}`;
                     votesList.appendChild(li);
+                    animateNewRow(li); // Animate new row
                 }
             });
 
@@ -76,12 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 li.textContent = 'No policies upvoted yet.';
                 votesList.appendChild(li);
+                animateNewRow(li); // Animate new row
             }
 
         } else {
             console.warn("Warning: 'data.policies' is not an array. Check backend response.");
         }
-        console.log(data.votes);
 
         // --- AQI Chart ---
         const ctxAQI = document.getElementById('aqiChart').getContext('2d'); // Create a separate canvas for AQI
@@ -145,9 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
         console.error('Error fetching or processing user data:', error);
     });
+    
     // --- GSAP Animations ---
-
-    // 1. Animate User Card on Load
+    // Animate User Card on Load
     gsap.from('.info-card.primary', { 
         y: -50, 
         opacity: 0, 
@@ -155,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'back.out(1.7)' 
     });
 
-    // 2. Animate Charts on Load (Staggered)
+    // Animate Charts on Load (Staggered)
     gsap.from('.chart-container canvas', {
         scale: 0.8, 
         opacity: 0, 
@@ -163,4 +166,23 @@ document.addEventListener('DOMContentLoaded', () => {
         stagger: 0.2, // Delay between each chart animation
         ease: 'elastic.out(1, 0.75)' 
     });
+
+    // Function to create a staggered animation for new rows
+    function animateNewRow(row) {
+        gsap.fromTo(
+            row,
+            { opacity: 0, y: 100 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: row,
+                    start: "top 100%",
+                    toggleActions: "play none none reverse"
+                }
+            }
+        );
+    }
 });
