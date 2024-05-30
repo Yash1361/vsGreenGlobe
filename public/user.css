@@ -39,10 +39,21 @@ body {
 /* User Info Section */
 .user-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Let grid determine columns */
-    grid-template-rows: minmax(100px, 1fr) repeat(auto-fit, minmax(250px, 1fr)); 
+    grid-template-columns: 1fr; /* Single column layout for the first row */
+    grid-template-rows: auto auto; /* Adjust rows automatically */
     gap: 30px; 
     flex-wrap: wrap;         
+}
+
+.user-info .primary {
+    grid-column: 1 / -1; /* Center the primary card */
+    justify-self: center; /* Center the primary card horizontally */
+}
+
+.user-info .secondary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Flexible grid for secondary cards */
+    gap: 30px; 
 }
 
 /* Card Styles */
@@ -75,7 +86,6 @@ body {
     transform: translateX(0); /* Slide the bar in on hover */
 }
 
-
 .info-card:hover {
     transform: translateY(-8px); 
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); 
@@ -84,7 +94,13 @@ body {
 .info-card.primary {
     background: linear-gradient(135deg, #4F46E5, #8B5CF6); 
     color: white;
-    
+    width: 40%; /* Increase width */
+    height: 265px; /* Increase height */
+    display: flex; /* Enable flexbox */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Ensure text is centered */
 }
 
 .info-card i {
@@ -144,7 +160,7 @@ li:hover {
 .chart-container {
     width: 100%;             /* Ensure chart canvas takes up full container width */
     height: 100%;            /* Ensure chart canvas takes up full container height */
-  }
+}
 
 .chart-card { /* Target cards containing charts */
     flex: 1 0 400px;      /* Make chart cards wider */
@@ -156,12 +172,11 @@ li:hover {
     font-weight: 700; /* Make it bold */ 
     letter-spacing: -0.05rem; /* Slightly tighten letter spacing */
     margin-bottom: 15px; 
-  }
+}
   
 .info-card.primary p {
     font-size: 1.3rem; /* Make rank text larger */
 }
-  
   
 .info-card p { /* Target the money spent text */
     font-size: 30px; /* Make money spent larger */ 
