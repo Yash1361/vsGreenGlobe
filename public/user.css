@@ -109,8 +109,18 @@ li:hover {
     height: 300px;          /* Set a fixed height for the chart containers */
 }
 
-.info-card.primary h2 {
-    font-size: 2.5rem; /* Make username significantly larger */
-    margin-bottom: 10px;
+.info-card.primary h2 { 
+    font-size: 2.5rem; 
+    font-weight: 700; /* Make it bold */ 
+    letter-spacing: -0.05rem; /* Slightly tighten letter spacing */
+    margin-bottom: 15px; 
+  }
+  
+.info-card.primary p {
+    font-size: 1.3rem; /* Make rank text larger */
 }
-
+  
+  
+.info-card p { /* Target the money spent text */
+    font-size: 30px; /* Make money spent larger */ 
+}
