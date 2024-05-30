@@ -1,64 +1,106 @@
 /* General Styles */
 body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #222831; /* Dark Background */
+    font-family: 'Roboto', sans-serif;
+    background-color: #222831;
     margin: 0;
     padding: 0;
-    color: #e0e0e0; /* Light Text */
-    overflow-y: auto;  /* Enable vertical scrolling for the page */
+    color: #e0e0e0; 
+    overflow-y: auto;  
+    text-rendering: optimizeLegibility; /* Improve text sharpness */
 }
 
 .container {
     max-width: 1200px;
     margin: 30px auto;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    padding: 30px;
-    border-radius: 8px; 
-    background: linear-gradient(135deg, rgba(0, 123, 255, 0.3), rgba(213, 45, 45, 0.3));
+    background-color: #2A2F38; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    padding: 40px;
+    border-radius: 12px; 
+    background: linear-gradient(135deg, #29323C, #20252D); 
     display: flex;
-    flex-direction: column; /* Arrange items vertically */
-    min-height: 100vh;       /* Ensure container takes up full viewport height */
+    flex-direction: column; 
+    min-height: 100vh;      
 }
 
+/* Header Styles */
 .profile-header {
     text-align: center;
-    margin-bottom: 30px;
-    color: #66afe9; /* Lighter Blue for Header */
+    margin-bottom: 40px; 
+    color: #66afe9; 
+}
+
+.profile-header h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 0; /* Reduce spacing */
 }
 
 /* User Info Section */
 .user-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    flex-wrap: wrap;          /* Allow grid items to wrap */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));  /* Let grid determine columns */
+    grid-template-rows: minmax(100px, 1fr) repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 30px; 
+    flex-wrap: wrap;         
 }
 
+/* Card Styles */
 .info-card {
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); 
     text-align: center;
-    background-color: #343a40; /* Darker Card Background */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Add transition */
-    flex: 1 0 250px;       /* Each card takes at least 250px, grows to fill space */
-    margin-bottom: 20px;     /* Add some space between cards */
+    background-color: #343A40; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1 0 250px;       
+    margin-bottom: 30px;     
+    position: relative; /* For inner elements positioning */
+    overflow: hidden; /* Hide content that overflows */
 }
+
+.info-card::before { 
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, #42b883, #3b82f6); /* Gradient bar at the top */
+    transform: translateX(-100%); /* Initially hide the bar */
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.info-card:hover::before {
+    transform: translateX(0); /* Slide the bar in on hover */
+}
+
 
 .info-card:hover {
-    transform: translateY(-5px); /* Lift on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow on hover */
+    transform: translateY(-8px); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25); 
 }
 
 .info-card.primary {
-    background: linear-gradient(135deg, #3b82f6, #4f46e5); /* Updated Blue Gradient */
+    background: linear-gradient(135deg, #4F46E5, #8B5CF6); 
     color: white;
-  }
+    
+}
 
 .info-card i {
-    font-size: 2rem; 
+    font-size: 3rem; 
+    margin-bottom: 15px; 
+    color: #66afe9;  /* Light blue icon color */
+}
+
+.info-card h2 {
+    font-size: 1.8rem;
     margin-bottom: 10px;
+}
+
+.info-card p { 
+    font-size: 2rem; 
+    font-weight: 500;
 }
 
 /* Policies and Votes Sections */
@@ -106,7 +148,7 @@ li:hover {
 
 .chart-card { /* Target cards containing charts */
     flex: 1 0 400px;      /* Make chart cards wider */
-    height: 300px;          /* Set a fixed height for the chart containers */
+    height: 250px;          /* Set a fixed height for the chart containers */
 }
 
 .info-card.primary h2 { 
@@ -123,4 +165,10 @@ li:hover {
   
 .info-card p { /* Target the money spent text */
     font-size: 30px; /* Make money spent larger */ 
+}
+
+.chart-container canvas {
+    background-color: #2A2F38; /* Match chart background to card */
+    border-radius: 8px;         /* Rounded corners for the chart */
+    padding: 15px;             /* Add some padding around the chart */
 }

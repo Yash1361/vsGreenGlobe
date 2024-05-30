@@ -127,4 +127,22 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
         console.error('Error fetching or processing user data:', error);
     });
+    // --- GSAP Animations ---
+
+    // 1. Animate User Card on Load
+    gsap.from('.info-card.primary', { 
+        y: -50, 
+        opacity: 0, 
+        duration: 1, 
+        ease: 'back.out(1.7)' 
+    });
+
+    // 2. Animate Charts on Load (Staggered)
+    gsap.from('.chart-container canvas', {
+        scale: 0.8, 
+        opacity: 0, 
+        duration: 1.2, 
+        stagger: 0.2, // Delay between each chart animation
+        ease: 'elastic.out(1, 0.75)' 
+    });
 });
