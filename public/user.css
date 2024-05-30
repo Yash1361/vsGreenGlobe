@@ -11,7 +11,7 @@ body {
 
 .container {
     max-width: 1200px;
-    margin: 30px auto;
+    margin: 10px auto;
     background-color: #2A2F38; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
     padding: 40px;
@@ -19,7 +19,8 @@ body {
     background: linear-gradient(135deg, #29323C, #20252D); 
     display: flex;
     flex-direction: column; 
-    min-height: 100vh;      
+    min-height: 100vh;   
+    gap: 30px; /* Add gap between sections */
 }
 
 /* Header Styles */
@@ -30,7 +31,7 @@ body {
 }
 
 .profile-header h1 {
-    font-size: 2.5em;
+    font-size: 2.2em;
     font-weight: 700;
     letter-spacing: -1px;
     margin-bottom: 0; /* Reduce spacing */
@@ -122,6 +123,10 @@ body {
 /* Policies and Votes Sections */
 .policies-section, .votes-section {
     margin-bottom: 30px;
+    padding: 20px; /* Add padding for consistency */
+    border-radius: 12px;
+    background-color: #2A2F38; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
@@ -148,13 +153,15 @@ li {
     border-radius: 5px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); 
     background-color: #3d444d; /* Darker list item background */
-    transition: background-color 0.3s ease; /* Add transition */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition */
 }
 
 li:hover {
     background-color: #4b5563; /* Darker shade on hover */
     cursor: pointer; /* Change cursor to pointer on hover */
+    transform: translateY(-3px); /* Slightly lift the item */
 }
+
 
 /* Chart Styling */
 .chart-container {
@@ -167,10 +174,10 @@ li:hover {
     height: 250px;          /* Set a fixed height for the chart containers */
 }
 
-.info-card.primary h2 { 
-    font-size: 2.5rem; 
-    font-weight: 700; /* Make it bold */ 
-    letter-spacing: -0.05rem; /* Slightly tighten letter spacing */
+.info-card.primary h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.05rem;
     margin-bottom: 15px; 
 }
   
@@ -193,7 +200,7 @@ li:hover {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 .gold {
@@ -206,4 +213,31 @@ li:hover {
 
 .bronze {
     color: #CD7F32 !important;
+}
+
+@media (max-width: 768px) {
+    .user-info {
+        grid-template-columns: 1fr;
+    }
+
+    .secondary-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-card.primary p {
+    font-size: 1.5rem; /* Make rank text larger */
+}
+
+.info-card p {
+    font-size: 1.2rem; /* Adjust font size for other text */
+}
+
+h2 {
+    font-size: 1.8rem; /* Adjust header size for sections */
+    font-weight: 500;
+}
+
+li {
+    font-size: 1.1rem; /* Adjust font size for list items */
 }
