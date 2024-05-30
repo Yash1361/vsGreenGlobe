@@ -1,12 +1,12 @@
 /* General Styles */
 * {
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
-    background-color: #222831;
+    background-color: #1a1a1a; /* Darker background */
     color: #e0e0e0;
     line-height: 1.6;
 }
@@ -14,42 +14,43 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px; 
+    padding: 0 20px;
 }
 
 a {
-    color: inherit; 
+    color: inherit;
     text-decoration: none;
 }
 
 /* Navigation Bar */
 .navbar {
-    background-color: rgba(34, 40, 49, 0.9); 
-    padding: 15px 0; 
-    position: fixed; 
+    background-color: rgba(26, 26, 26, 0.9); /* Darker navbar */
+    padding: 15px 0;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .navbar .container {
     display: flex;
     justify-content: space-between;
-    align-items: center; 
+    align-items: center;
 }
 
 .logo {
     font-weight: 700;
     font-size: 1.2em;
+    color: #00ADB5; /* Logo color */
 }
 
 .nav-links {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex; 
+    display: flex;
 }
 
 .nav-links li {
@@ -57,23 +58,22 @@ a {
 }
 
 .nav-links a {
-    position: relative; 
-    padding-bottom: 5px; 
-    transition: color 0.3s ease; 
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
 }
 
 .nav-links a.game {
-    background-image: linear-gradient(to right, #ff0080, #ff8c00, #40e0d0, #ff8c00, #ff0080);
-    background-size: 200% 100%; 
-    background-clip: text; /* Apply gradient to text */
-    -webkit-background-clip: text; /* For Chrome and Safari */
-    color: transparent; 
+    background-image: linear-gradient(to right, #00c6ff, #0072ff); /* Updated game link gradient */
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
     transition: background-position 0.5s ease;
 }
 
-
 .nav-links a:hover {
-    color: #00ADB5; 
+    color: #00c6ff; /* Updated hover color */
 }
 
 .nav-links a::before {
@@ -93,16 +93,16 @@ a {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('your-hero-image.jpg'); 
-    background-size: cover; 
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('globe/globe.jpg');
+    background-size: cover;
     background-position: center;
     text-align: center;
-    padding: 150px 0; 
+    padding: 150px 0;
     color: #fff;
 }
 
 .hero h1 {
-    font-size: 3em; 
+    font-size: 3em;
     margin-bottom: 10px;
 }
 
@@ -110,36 +110,67 @@ a {
     font-size: 1.3em;
 }
 
+/* Mission Section */
+.mission {
+    background-color: #222; 
+    padding: 80px 0;
+    color: #fff;
+}
+
+.mission .container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center; /* Align items vertically */
+    flex-wrap: wrap;    /* Allow wrapping on smaller screens */
+}
+
+.mission .content {
+    flex: 1;           /* Allow content to grow and shrink */
+    padding: 0 20px; 
+}
+
+.mission .image {
+    flex: 1;           /* Allow image to grow and shrink */
+    text-align: center; /* Center the image */
+}
+
+.mission .image img {
+    max-width: 100%;   /* Ensure image scales down responsively */
+    height: auto;      /* Maintain aspect ratio */
+    border-radius: 10px; /* Add rounded corners to the image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow to the image */
+}
+
 /* Features Section */
 .features {
-    padding: 80px 0; 
-    background-color: #29323C;
+    padding: 80px 0;
+    background-color: #1a1a1a;
 }
 
 .features .container {
     display: flex;
-    justify-content: space-around; 
-    flex-wrap: wrap; 
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .feature {
-    text-align: center; 
-    margin-bottom: 40px; 
-    width: 300px; 
+    text-align: center;
+    margin-bottom: 40px;
+    width: 300px;
 }
 
 .feature i {
-    color: #00ADB5;
     margin-bottom: 15px;
 }
 
 .feature h2 {
+    color: #00c6ff; /* Feature title color */
     margin-bottom: 10px;
 }
 
 /* Footer */
 footer {
-    background-color: #222831; 
+    background-color: #111; 
     text-align: center;
     padding: 20px 0;
 }
