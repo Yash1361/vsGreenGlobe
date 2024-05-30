@@ -172,7 +172,16 @@ app.post('/user-policies', async (req, res) => {
             return res.status(404).send('No policies found for the user');
         }
 
-        res.status(200).json(userPolicies);
+        const allPolicies = await policies.find().sort({ totalScore: -1 }).toArray();
+        let rank = null;
+        for (let i = 0; i < allPolicies.length; i++) {
+            if (allPolicies[i].username === username) {
+                rank = i + 1;
+                break;
+            }
+        }
+
+        res.status(200).json({ ...userPolicies, rank });
     } catch (err) {
         console.error(err);
         res.status(500).send('Error fetching user policies');

@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let aqi = 180;
     let happiness = 20;
     let score = 0;
+    let rank = null;
 
     function calculateScore() {
         const scoreElement = document.getElementById('score');
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingSpinner = document.getElementById('loading-spinner');
     const viewPoliciesButton = document.getElementById('view-policies-button');
     const policiesList = document.getElementById('policies-list');
+    const leaderboardRankElement = document.getElementById('leaderboard-rank');
 
     implementPolicyButton.addEventListener('click', () => {
         if (policyInput.style.display === 'flex') {
@@ -423,6 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             aqi = userPolicies.aqi || 180;
             happiness = userPolicies.happiness || 20;
             score = userPolicies.totalScore || 0;
+            rank = userPolicies.rank || null;
 
             // Update the UI with user's states
             document.querySelector('.info-container .info:nth-child(1)').innerHTML = `<span class="info-title">Money Spent:</span> $${(moneySpent / 1e6).toFixed(2)} million`;
@@ -448,6 +451,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 implementPolicyButton.disabled = true;
                 submitPolicyButton.disabled = true;
             }
+
+            // Update leaderboard rank
+            const leaderboardRankElement = document.getElementById('leaderboard-rank');
+            if (rank && rank <= 10) {
+                 leaderboardRankElement.textContent = `${rank}`;
+            } else {
+                 leaderboardRankElement.textContent = `You are not on the leaderboard yet.`;
+            }
+
         }
     }
 
