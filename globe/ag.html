@@ -1,41 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Portal</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="globe/ag.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1/dist/confetti.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1/dist/confetti.min.js"></script> 
 </head>
-
 <body>
-    <div class="navbar">
-        <a href="/"><i class="fas fa-home"></i> Home</a>
-        <a href="leaderboard.html">Leaderboard</a>
-        <a href="#" id="game-link" class="game">Game</a>
-        <a href="#" id="tutorial-link" class="tutorial">Tutorial</a>
-        <a href="#" id="dashboard-link" class="user-dashboard"><i class="fas fa-user-circle"></i> Dashboard</a>
-    </div>
+    <nav class="navbar"> 
+        <div class="container"> 
+            <a href="/" class="logo">Your Logo</a> 
+            <ul class="nav-links">
+                <li><a href="/" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="leaderboard.html"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+                <li><a href="#" id="game-link" class="game">
+                    <span class="text">Game</span> 
+                    <span class="line"></span> 
+                </a></li>
+                <li><a href="#" id="tutorial-link" class="tutorial">Tutorial</a></li>
+                <li><a href="#" id="dashboard-link" class="user-dashboard">
+                    <i class="fas fa-user-circle"></i> Dashboard
+                </a></li>
+            </ul>
+        </div>
+    </nav>
 
-    <div class="container">
-        <div class="content-section" id="home">
-            <h1>Welcome Home</h1>
-            <p>This is the home page of our gaming portal. Explore the sections to learn more.</p>
+    <header class="hero">
+        <div class="container">
+            <h1>Level Up Your Gaming</h1>
+            <p>Welcome to the ultimate gaming portal. Explore, compete, and dominate!</p>
         </div>
+    </header>
 
-        <div class="content-section" id="mission">
-            <h1>Mission Statement</h1>
-            <p>Check out the top players and their scores here.</p>
+    <section class="features">
+        <div class="container">
+            <div class="feature">
+                <i class="fas fa-gamepad fa-3x"></i> 
+                <h2>Exciting Games</h2>
+                <p>Dive into a world of captivating games designed to challenge and entertain.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-users fa-3x"></i> 
+                <h2>Thriving Community</h2>
+                <p>Connect with fellow gamers, share strategies, and climb the leaderboards together.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-star fa-3x"></i> 
+                <h2>Endless Rewards</h2>
+                <p>Earn achievements, unlock exclusive content, and showcase your gaming prowess.</p>
+            </div>
         </div>
-        <div class="content-section" id="about">
-            <h1>About Us</h1>
-            <p>Check out the top players and their scores here.</p>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Your Game Portal Name</p>
         </div>
-    </div>
+    </footer>
+
     <script src="globe/ag.js"></script>
 </body>
-
 </html>
