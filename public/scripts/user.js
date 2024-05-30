@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!username) {
         console.error('Username not found in URL parameters.');
-        // Handle the case where username is not available, 
-        // e.g., redirect to an error page or display a message
         return;
     }
 
@@ -23,10 +21,30 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json(); 
     })
     .then(data => {
+        const userCard = document.querySelector('.info-card.primary');
+
+        // Update user information
         document.getElementById('username').textContent = data.username || 'N/A';
         document.getElementById('rank').textContent = data.rank || 'N/A';
         document.getElementById('totalScore').textContent = data.totalScore || '0';
-        document.getElementById('moneySpent').textContent = (data.moneySpent || 0).toLocaleString('en-US'); 
+        document.getElementById('moneySpent').textContent = (data.moneySpent || 0).toLocaleString('en-US');
+
+        // Add badge based on rank
+        const rank = data.rank;
+        let badge = document.createElement('i');
+        badge.classList.add('badge', 'fas');
+        
+        if (rank === 1) {
+            badge.classList.add('fa-medal', 'gold');
+        } else if (rank === 2) {
+            badge.classList.add('fa-medal', 'silver');
+        } else if (rank === 3) {
+            badge.classList.add('fa-medal', 'bronze');
+        }
+
+        if (rank >= 1 && rank <= 3) {
+            userCard.appendChild(badge);
+        }
 
         const policiesList = document.getElementById('policiesList');
         if (data.policies && Array.isArray(data.policies)) {
