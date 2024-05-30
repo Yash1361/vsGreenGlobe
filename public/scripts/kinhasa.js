@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { x: 520, y: 470, radius: 90, opacity: 0.56 }
     ];
 
-    mapImage.onload = () => {
+    mapImage.onload = async () => {
         // Set the canvas dimensions to match the image dimensions
         canvas.width = mapImage.width;
         canvas.height = mapImage.height;
@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         drawBackground();
         drawMapWithGradientOverlay();
         animatePollutionClouds(); // Start animation after loading the image
+
+        await initializeUserPolicies(); // Initialize user policies and states after map loads
     };
 
     function drawBackground() {
@@ -102,10 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function calculateScore() {
         const scoreElement = document.getElementById('score');
-        const initialMoneySpent = 0;
-        const initialAQI = 180;
-        const initialHappiness = 20;
-
         if (moneySpent >= 1e9) {
             score = Math.round((aqi * happiness * 1000000000) / (moneySpent));
         } else {
@@ -383,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ title, description, score, username })
+          body: JSON.stringify({ title, description, score, username, moneySpent, aqi, happiness })
         });
       
         if (response.ok) {
@@ -398,4 +396,75 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error('Error submitting policy to leaderboard.');
         }
       }
+
+    // Function to fetch user policies and initialize their states
+    async function fetchUserPolicies(username) {
+        const response = await fetch('http://localhost:3000/user-policies', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username })
+        });
+
+        if (response.ok) {
+            return await response.json();
+        } else {
+            console.error('Error fetching user policies');
+            return null;
+        }
+    }
+
+    async function initializeUserPolicies() {
+        const userPolicies = await fetchUserPolicies(username);
+
+        if (userPolicies) {
+            moneySpent = userPolicies.moneySpent || 0;
+            aqi = userPolicies.aqi || 180;
+            happiness = userPolicies.happiness || 20;
+            score = userPolicies.totalScore || 0;
+
+            // Update the UI with user's states
+            document.querySelector('.info-container .info:nth-child(1)').innerHTML = `<span class="info-title">Money Spent:</span> $${(moneySpent / 1e6).toFixed(2)} million`;
+            document.querySelector('.info-container .info:nth-child(2)').innerHTML = `<span class="info-title">AQI:</span> ${aqi.toFixed(2)}`;
+            document.getElementById('happiness-indicator').innerHTML = `<i class="${getHappinessIconClass(happiness)}"></i>`;
+            document.getElementById('score').textContent = score;
+
+            // Clear the policies list to avoid duplication
+            policiesList.innerHTML = '';
+
+            // Display the user's existing policies
+            userPolicies.policies.forEach(policy => {
+                const policyItem = document.createElement('div');
+                policyItem.className = 'policy-item';
+                policyItem.textContent = `${policy.title}: ${policy.description}`;
+                policiesList.appendChild(policyItem);
+            });
+
+            let currentCount = policiesList.children.length;
+            viewPoliciesButton.textContent = `Added Policies (${currentCount}/5)`;
+
+            if (currentCount >= 5) {
+                implementPolicyButton.disabled = true;
+                submitPolicyButton.disabled = true;
+            }
+        }
+    }
+
+    function getHappinessIconClass(happiness) {
+        if (happiness <= 20) {
+            return 'fas fa-angry'; // Angry face
+        } else if (happiness < 40) {
+            return 'fas fa-frown'; // Semi-angry face
+        } else if (happiness < 60) {
+            return 'fas fa-meh'; // Neutral face
+        } else if (happiness < 80) {
+            return 'fas fa-smile'; // Semi-happy face
+        } else {
+            return 'fas fa-laugh'; // Happy face
+        }
+    }
+
+    // Initialize user policies and states on page load
+    initializeUserPolicies();
 });

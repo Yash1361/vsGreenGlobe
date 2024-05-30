@@ -157,6 +157,28 @@ app.post('/generate', async (req, res) => {
     }
 });
 
+app.post('/user-policies', async (req, res) => {
+    const { username } = req.body;
+    if (!username) {
+        return res.status(400).send('Username is required');
+    }
+
+    try {
+        const db = await connectToDb();
+        const policies = db.collection('policies');
+
+        const userPolicies = await policies.findOne({ username });
+        if (!userPolicies) {
+            return res.status(404).send('No policies found for the user');
+        }
+
+        res.status(200).json(userPolicies);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching user policies');
+    }
+});
+
 app.post('/vote', async (req, res) => {
     const { username, title, vote, voter } = req.body;
     if (!username || !title || !Number.isInteger(vote) || !voter) {
@@ -208,8 +230,8 @@ app.post('/vote', async (req, res) => {
 });
 
 app.post('/submit', async (req, res) => {
-    const { title, description, score, username } = req.body;
-    if (!title || !description || !score || !username) {
+    const { title, description, score, username, moneySpent, aqi, happiness } = req.body;
+    if (!title || !description || !score || !username || moneySpent === undefined || aqi === undefined || happiness === undefined) {
         return res.status(400).send('All fields are required');
     }
 
@@ -222,12 +244,18 @@ app.post('/submit', async (req, res) => {
         if (userPolicies) {
             userPolicies.policies.push({ title, description, score });
             userPolicies.totalScore = userPolicies.policies.reduce((acc, policy) => acc + policy.score, 0);
+            userPolicies.moneySpent = moneySpent;
+            userPolicies.aqi = aqi;
+            userPolicies.happiness = happiness;
             await policies.updateOne({ username }, { $set: userPolicies });
         } else {
             const newUserPolicies = {
                 username,
                 policies: [{ title, description, score }],
-                totalScore: score
+                totalScore: score,
+                moneySpent: moneySpent,
+                aqi: aqi,
+                happiness: happiness
             };
             await policies.insertOne(newUserPolicies);
         }
