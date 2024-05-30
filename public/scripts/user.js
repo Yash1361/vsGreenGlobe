@@ -148,13 +148,29 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
         console.error('Error fetching or processing user data:', error);
     });
-    
+
     // --- GSAP Animations ---
-    // Animate User Card on Load
-    gsap.from('.info-card.primary', { 
-        y: -50, 
+    // Animate Header on Load
+    gsap.from('.profile-header', { 
         opacity: 0, 
         duration: 1, 
+        y: -50,
+        ease: 'power3.out' 
+    });
+
+    // Animate User Card and Badge on Load
+    gsap.from('.info-card.primary', { 
+        scale: 0.8, 
+        opacity: 0, 
+        duration: 1, 
+        ease: 'bounce.out' 
+    });
+
+    gsap.from('.badge', { 
+        scale: 0.5, 
+        opacity: 0, 
+        duration: 1, 
+        delay: 1, 
         ease: 'back.out(1.7)' 
     });
 
@@ -167,11 +183,25 @@ document.addEventListener('DOMContentLoaded', () => {
         ease: 'elastic.out(1, 0.75)' 
     });
 
+    // Animate Policy Lists
+    gsap.from('.policies-section, .votes-section', {
+        scale: 0.8, 
+        opacity: 0, 
+        duration: 1.2, 
+        stagger: 0.3, 
+        ease: 'back.out(1.7)', 
+        scrollTrigger: {
+            trigger: '.policies-section, .votes-section',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        }
+    });
+
     // Function to create a staggered animation for new rows
     function animateNewRow(row) {
         gsap.fromTo(
             row,
-            { opacity: 0, y: 100 },
+            { opacity: 0, y: 50 },
             {
                 opacity: 1,
                 y: 0,
@@ -185,4 +215,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         );
     }
+
+    // Hover Effects for Cards
+    const cards = document.querySelectorAll('.info-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseover', () => {
+            gsap.to(card, {
+                scale: 1.05,
+                boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
+                duration: 0.1,
+                ease: 'power3.out'
+            });
+        });
+        card.addEventListener('mouseout', () => {
+            gsap.to(card, {
+                scale: 1,
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                duration: 0.3,
+                ease: 'power3.out'
+            });
+        });
+    });
 });
