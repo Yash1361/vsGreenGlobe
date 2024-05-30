@@ -157,8 +157,6 @@
             { text: "Remember, every policy will impact all the indexes in the info tab positively or negatively...", image: "/globe/snaps/info.png" },
             { text: "And last but not the least, this is the leaderboard where you can see policies and their effects implemented by other world leaders...", image: "/globe/snaps/leaderboard.png" },
             { text: "Choose Wisely. GOOD LUCK!!!", image: "" }
-
-
         ];
         let currentIndex = 0;
 
@@ -192,11 +190,10 @@
                 currentIndex++;
                 typeText(textAndImages[currentIndex]);
             } else {
-                this.disabled = true;
+                const username = new URLSearchParams(window.location.search).get('username');
+                window.location.href = `ag.html?username=${username}`;
             }
         });
-
-
 
         window.onload = function () {
             setTimeout(() => {
@@ -220,6 +217,11 @@
             window.location.reload(); // Reloads the current page
         });
 
+        // Event listener for the Skip button
+        document.getElementById('skipButton').addEventListener('click', function () {
+            const username = new URLSearchParams(window.location.search).get('username');
+            window.location.href = `ag.html?username=${username}`;
+        });
     </script>
 </body>
 

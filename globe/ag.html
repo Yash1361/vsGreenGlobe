@@ -57,10 +57,10 @@
         /* Navigation Bar Styles */
         .navbar {
             position: fixed;       /* Fixes navbar to the top of the viewport */
-    top: 0;                /* Aligns it to the top */
-    left: 0;               /* Aligns it to the left */
-    width: 100%;           /* Ensures it stretches across the full width of the viewport */
-    z-index: 1000;
+            top: 0;                /* Aligns it to the top */
+            left: 0;               /* Aligns it to the left */
+            width: 100%;           /* Ensures it stretches across the full width of the viewport */
+            z-index: 1000;
             background-color: #393E46;
             padding: 10px 0;
             text-align: center;
@@ -164,19 +164,19 @@
             }
         }
         body {
-            padding-top: 60px; /* Adjust this value based on the actual height of your navbar */
+            padding-top: 60px;
+            /* Adjust this value based on the actual height of your navbar */
         }
-        
     </style>
 </head>
 
 <body>
     <div class="navbar">
-        <a href="#home"><i class="fas fa-home"></i> Home</a> 
-        <a href="#leaderboard">Leaderboard</a>
-        <a href="#game" class="game">Game</a>
-        <a href="#globe">Globe</a>
-        <a href="#user-dashboard" class="user-dashboard"><i class="fas fa-user-circle"></i> Dashboard</a>
+        <a href="/"><i class="fas fa-home"></i> Home</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="#" id="game-link" class="game">Game</a>
+        <a href="#" id="tutorial-link" class="tutorial">Tutorial</a>
+        <a href="#" id="dashboard-link" class="user-dashboard"><i class="fas fa-user-circle"></i> Dashboard</a>
     </div>
 
     <div class="container">
@@ -185,16 +185,24 @@
             <p>This is the home page of our gaming portal. Explore the sections to learn more.</p>
         </div>
 
-        <div class="content-section" id="home">
+        <div class="content-section" id="mission">
             <h1>Mission Statement</h1>
             <p>Check out the top players and their scores here.</p>
         </div>
-        <div class="content-section" id="home">
+        <div class="content-section" id="about">
             <h1>About Us</h1>
             <p>Check out the top players and their scores here.</p>
         </div>
     </div>
     <script>
+        // Get the username from the URL parameters
+        const username = new URLSearchParams(window.location.search).get('username');
+
+        // Update the game and dashboard links with the username parameter
+        document.getElementById('game-link').href = `kinhasa.html?username=${username}`;
+        document.getElementById('tutorial-link').href = `tutorial.html?username=${username}`;
+        document.getElementById('dashboard-link').href = `user.html?username=${username}`;
+
         document.querySelector('.navbar a.game').addEventListener('mouseenter', function () {
             confetti({
                 particleCount: 100,

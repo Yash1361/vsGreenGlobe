@@ -33,7 +33,7 @@ document.getElementById('signin-submit').onclick = async function() {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
-        window.location.href = `Kinhasa.html?username=${data.username}`;
+        window.location.href = `ag.html?username=${data.username}`;
     } else {
         alert('Invalid credentials');
     }
@@ -88,7 +88,7 @@ document.getElementById('otp-submit').onclick = async function() {
         const data = await response.json();
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.username);
-        window.location.href = `Kinhasa.html?username=${data.username}`;
+        window.location.href = `tutorial.html?username=${data.username}`;
     } else {
         alert('Invalid OTP');
     }

@@ -35,6 +35,16 @@ async function connectToDb() {
     return client.db(dbName);
 }
 
+// Add this route to serve ag.html
+app.get('/ag.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'globe', 'ag.html'));
+});
+
+// Add this route to serve tutorial.html
+app.get('/tutorial.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'globe', 'tutorial.html'));
+});
+
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
