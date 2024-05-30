@@ -174,3 +174,8 @@ footer {
     text-align: center;
     padding: 20px 0;
 }
+
+.image {
+    max-width: 200px;
+    max-height: 200px;
+}

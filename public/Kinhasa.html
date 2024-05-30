@@ -11,7 +11,9 @@
 </head>
 <body>
   <div class="left" id="left-container">
-    <div class="header">Actions</div>
+    <div class="header">
+      <i class="fas fa-wrench"></i> Actions
+    </div>
     <div class="button-container">
       <button class="icon-button" id="implement-policy-button"><i class="fas fa-gavel"></i> Implement Policy</button>
       <div class="policy-input" id="policy-input">
@@ -29,18 +31,24 @@
     </div>
   </div>
   <div class="center">
-    <div class="header">Map of Cosmoriya</div>
+    <div class="header">
+      <i class="fas fa-globe-americas"></i> Cosmoriya Simulation
+    </div>
     <canvas id="mapCanvas" class="container"></canvas>
   </div>
   <div class="right">
-    <div class="header">Info</div>
+    <div class="header">
+      <i class="fas fa-chart-bar"></i> Live Data Feed
+    </div>
     <div class="info-container">
       <div class="info"><span class="info-title">Money Spent:</span> $0</div>
       <div class="info"><span class="info-title">AQI:</span> 180</div>
       <div class="info"><span class="info-title">Happiness:</span> <span id="happiness-indicator"><i class="fas fa-angry"></i></span></div>
       <div class="info"><span class="info-title">Score:</span> <span id="score">0</span></div>
       <div class="info"><span class="info-title">Current Leaderboard Rank:</span> <span id="leaderboard-rank">You are not on the leaderboard yet</span></div>
-      <button class="icon-button" onclick="window.location.href='leaderboard.html'">Check out Leaderboard</button>
+      <button class="icon-button" onclick="window.location.href='leaderboard.html'">
+        <i class="fas fa-trophy"></i> View Leaderboard
+      </button>
     </div>
   </div>
   <script src="scripts/Kinhasa.js"></script>
