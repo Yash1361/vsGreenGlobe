@@ -90,14 +90,17 @@ GreenGlobe is an innovative web platform that utilizes interactive gaming to gat
 ## Installation
 
 1. Clone the repository:
+
    ```bash
-   git clone https://github.com/yourusername/greenglobe.git
+   git clone https://github.com/Yash1361/vsGreenGlobe.git
 
 2. Navigate to the project directory:
+
    ```bash
    cd greenglobe
 
 3. Install the dependencies:
+
    ```bash
    npm install
 
@@ -108,7 +111,35 @@ GreenGlobe is an innovative web platform that utilizes interactive gaming to gat
 ## Usage
 
 1. Start the server:
+
    ```bash
    npm start
 
 2. Open your browser and navigate to http://localhost:3000
+
+## Contributing
+
+We welcome contributions to GreenGlobe! Please follow these steps to contribute:
+
+1. Fork the repository.
+
+2. Create a new branch:
+
+   ```bash
+   git checkout -b feature/your-feature-name
+
+3. Commit your changes:
+
+   ```bash
+   git commit -m 'Add some feature'
+
+4. Push to the branch:
+
+   ```bash
+   git push origin feature/your-feature-name
+
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License.
