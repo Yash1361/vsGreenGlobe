@@ -27,34 +27,36 @@ GreenGlobe is an innovative web platform that utilizes interactive gaming to gat
 
 ### Globe Landing Page
 
-![Globe Landing Page](./path/to/image1.png)
+![Globe Landing Page](Images/1.png)
+![Awareness Page](Images/1-2.png)
 
 - **3D Interactive Globe**: The home page features a responsive 3D globe created using `three.js`, providing a visually appealing and interactive starting point for users.
 - **Awareness Message**: As users scroll down, they are presented with a stark reminder of the impact of air pollution, highlighting the urgency of climate action.
 
 ### Sign Up/Sign In
 
-![Sign Up/Sign In](./path/to/image2.png)
+![Sign Up/Sign In](Images/2.png)
 
 - **OTP Verification**: Users can sign up with email verification powered by SendGrid, ensuring secure account creation.
 - **User Flow**: New users are directed to the tutorial page after signing up, while returning users are taken directly to the home page.
 
 ### Tutorial Page
 
-![Tutorial Page](./path/to/image3.png)
+![Tutorial Page](Images/3.png)
 
 - **Game Instructions**: This page explains the game's mechanics, objectives, and the significance of each feature, ensuring users are well-prepared to participate.
 
 ### Home Page
 
-![Home Page](./path/to/image4.png)
+![Home Page](Images/4.png)
+![Home Page](Images/4-2.png)
 
 - **Mission Statement**: Our mission is to leverage gaming for real-world impact. Users contribute to research on effective climate policies by engaging with our game.
 - **Navigation**: Users can access various sections of the site, including the dashboard, game, leaderboard, and tutorial page.
 
 ### Game Page
 
-![Game Page](./path/to/image5.png)
+![Game Page](Images/5.png)
 
 - **Interactive Gameplay**: The game page is divided into three sections: Actions, Cosmoriya Simulation, and Info.
   - **Actions**: Users implement policies as the president of Cosmoriya, a fictional country with a high AQI of 180.
@@ -64,14 +66,15 @@ GreenGlobe is an innovative web platform that utilizes interactive gaming to gat
 
 ### Leaderboard
 
-![Leaderboard](./path/to/image6.png)
+![Leaderboard](Images/6.png)
 
 - **Real-Time Rankings**: The leaderboard showcases the top 10 scores, allowing users to see how their policies compare.
 - **Voting System**: Users can upvote or downvote policies, influencing their visibility and ranking. Policies with -10 votes are automatically removed.
 
 ### User Dashboard
 
-![User Dashboard](./path/to/image7.png)
+![User Dashboard](Images/7.png)
+![User Dashboard](Images/7-2.png)
 
 - **Personal Metrics**: Displays user-specific information, including username, rank, and policy impact metrics.
 - **Charts and Medals**: Beautiful charts visualize the impact of the user's policies. Top 3 users are awarded medals (gold, silver, or bronze).
