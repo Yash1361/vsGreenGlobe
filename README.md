@@ -142,5 +142,5 @@ We welcome contributions to GreenGlobe! Please follow these steps to contribute:
 
 ## License
 
-This project is licensed under a Proprietary License. See the [LICENSE](./LICENSE) file for more details.
+This project is licensed under a Proprietary License. See the [LICENSE](./LICENSE.txt) file for more details.
 
