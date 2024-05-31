@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("AQI Value:", aqiValue);
             if (aqiMatch[1].includes('+')) {
                 console.log("+ found in aqi")
-                aqi *= (1 + (aqiValue) / 100);
+                aqi *= (1 - (aqiValue) / 100);
             } else if (aqiMatch[1].includes('-')) {
                 console.log("- found in aqi")
                 aqi *= (1 - (-(aqiValue) / 100));
