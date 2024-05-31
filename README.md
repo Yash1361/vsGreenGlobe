@@ -1,70 +1,111 @@
-# Green Globe: A Climate Action Game Driving Real-World Impact
+# GreenGlobe
 
-## Mission: Climate Action Through Gaming
+Welcome to GreenGlobe, an interactive platform designed to harness the power of games to drive real-world impact on climate change. This detailed README will guide you through the technical aspects, features, and functionality of our website.
 
-**Green Globe** is not just another game – it's a movement. We believe in the power of games to drive real-world impact. By playing Green Globe, you will:
+## Table of Contents
 
-- **Make a Difference**: Contribute valuable data to our ongoing research on effective climate change policies.
-- **Learn by Doing**: Explore sustainable strategies and understand the complex interplay of environmental, economic, and social factors.
-- **Join a Community**: Connect with other passionate players dedicated to making a difference in the fight against climate change.
+1. [Introduction](#introduction)
+2. [Features](#features)
+   - [Globe Landing Page](#globe-landing-page)
+   - [Sign Up/Sign In](#sign-upsign-in)
+   - [Tutorial Page](#tutorial-page)
+   - [Home Page](#home-page)
+   - [Game Page](#game-page)
+   - [Leaderboard](#leaderboard)
+   - [User Dashboard](#user-dashboard)
+3. [Technologies Used](#technologies-used)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [Contributing](#contributing)
+7. [License](#license)
 
-## Dive into the Experience
+## Introduction
 
-### A World in Crisis
-Your journey begins with a breathtaking, interactive 3D globe rendered using Three.js. As you navigate, you're confronted with the sobering reality of air pollution, responsible for millions of deaths annually. Green Globe is your chance to change that.
+GreenGlobe is an innovative web platform that utilizes interactive gaming to gather valuable data on effective policies to combat climate change. By engaging users in a dynamic and educational experience, we aim to collect actionable insights while demonstrating the complexities of environmental policy-making.
 
-### Secure Access, Engaging Onboarding
-Seamlessly sign up or log in, complete with robust email OTP verification, ensuring a secure and trustworthy environment. New players embark on an interactive tutorial, revealing the game's mechanics and setting the stage for impactful decision-making.
+## Features
 
-### Home Base
-The Home page serves as your central hub, featuring our mission statement and easy navigation to all areas of the application. It's your launchpad into the world of Green Globe.
+### Globe Landing Page
 
-### The Challenge Awaits – Cosmoriya
-Step into the shoes of the president of Cosmoriya, a fictional nation grappling with severe air pollution (AQI 180!). Your mission? Implement policies to combat this crisis.
+![Globe Landing Page](./path/to/image1.png)
 
-### Strategic Gameplay
-Green Globe's gameplay is divided into three key sections:
+- **3D Interactive Globe**: The home page features a responsive 3D globe created using `three.js`, providing a visually appealing and interactive starting point for users.
+- **Awareness Message**: As users scroll down, they are presented with a stark reminder of the impact of air pollution, highlighting the urgency of climate action.
 
-- **Actions**: Choose from a variety of policies – from planting trees to investing in renewable energy – each with its own costs and consequences.
-- **Cosmoriya Simulation**: A dynamic map visualizes the impact of your policies in real-time. Watch pollution clouds shrink as you improve air quality.
-- **Live Data Feed**: Track your progress with detailed metrics including:
-  - Money spent
-  - AQI improvement
-  - Citizen happiness
-  - Overall score (calculated using our proprietary algorithm)
+### Sign Up/Sign In
 
-### Gemini AI – Your Policy Analyst
-Every policy you implement is analyzed by our powerful Gemini AI. It predicts the short-term and long-term outcomes of your decisions, providing invaluable insights into the complexities of environmental policy-making.
+![Sign Up/Sign In](./path/to/image2.png)
 
-### Leaderboard – Rise to the Top
-Compete with players worldwide for the highest score. The leaderboard showcases the top 10 performers and their innovative policy combinations. Upvote and downvote policies to highlight the most effective strategies (policies receiving -10 downvotes are automatically removed).
+- **OTP Verification**: Users can sign up with email verification powered by SendGrid, ensuring secure account creation.
+- **User Flow**: New users are directed to the tutorial page after signing up, while returning users are taken directly to the home page.
 
-### Personalized Dashboard – Your Impact Profile
-Your dashboard is your personalized hub, showcasing your:
-- Username
-- Rank
-- Total Score
-- Implemented policies
-- Upvoted policies
-- AQI and Happiness impact visualized through stunning charts
-- Leaderboard Medals: Earn bronze, silver, or gold medals based on your leaderboard position, showcasing your dedication to a healthier planet.
+### Tutorial Page
 
-### Celebrate Success
-Green Globe celebrates your achievements every step of the way. Reach the top 10 of the leaderboard, and the game erupts in a shower of confetti, recognizing your impact.
+![Tutorial Page](./path/to/image3.png)
 
-## Technology Stack: A Robust Foundation
-Green Globe is built on a solid foundation of cutting-edge technologies:
+- **Game Instructions**: This page explains the game's mechanics, objectives, and the significance of each feature, ensuring users are well-prepared to participate.
 
-- **Frontend**: Three.js, HTML, CSS, JavaScript
+### Home Page
+
+![Home Page](./path/to/image4.png)
+
+- **Mission Statement**: Our mission is to leverage gaming for real-world impact. Users contribute to research on effective climate policies by engaging with our game.
+- **Navigation**: Users can access various sections of the site, including the dashboard, game, leaderboard, and tutorial page.
+
+### Game Page
+
+![Game Page](./path/to/image5.png)
+
+- **Interactive Gameplay**: The game page is divided into three sections: Actions, Cosmoriya Simulation, and Info.
+  - **Actions**: Users implement policies as the president of Cosmoriya, a fictional country with a high AQI of 180.
+  - **API Integration**: Policies are analyzed by Gemini AI, providing detailed feedback on their impact, including cost, AQI changes, and public happiness.
+  - **Real-Time Updates**: The Info section dynamically displays updated metrics such as money spent, AQI, happiness, and user score.
+  - **Confetti Celebration**: Users who achieve a top 10 score are celebrated with a confetti blast on the screen.
+
+### Leaderboard
+
+![Leaderboard](./path/to/image6.png)
+
+- **Real-Time Rankings**: The leaderboard showcases the top 10 scores, allowing users to see how their policies compare.
+- **Voting System**: Users can upvote or downvote policies, influencing their visibility and ranking. Policies with -10 votes are automatically removed.
+
+### User Dashboard
+
+![User Dashboard](./path/to/image7.png)
+
+- **Personal Metrics**: Displays user-specific information, including username, rank, and policy impact metrics.
+- **Charts and Medals**: Beautiful charts visualize the impact of the user's policies. Top 3 users are awarded medals (gold, silver, or bronze).
+
+## Technologies Used
+
+- **Frontend**: HTML, CSS, JavaScript, Three.js
 - **Backend**: Node.js, Express.js
-- **Database**: MongoDB (clustered on AWS)
-- **Email**: SendGrid (for secure OTP verification)
-- **AI Integration**: Custom integration with Gemini AI for advanced policy analysis
+- **Database**: MongoDB (hosted on AWS)
+- **Email Verification**: SendGrid
+- **AI Analysis**: Gemini AI
 
-## The Future: A Greener Tomorrow
-Green Globe is more than just a game – it's a platform for change. We are committed to:
+## Installation
 
-- **Continuous Improvement**: We're constantly adding new policies, features, and challenges based on player feedback and the latest research.
-- **Expanding Impact**: Our goal is to use the data collected from Green Globe to inform real-world policy decisions.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/greenglobe.git
 
-Join us on this exciting journey to make a real difference in the fight against climate change!
+2. Navigate to the project directory:
+   ```bash
+   cd greenglobe
+
+3. Install the dependencies:
+   ```bash
+   npm install
+
+4. Set up environment variables:
+   - Create a .env file in the root directory.
+   - Add your MongoDB URI, SendGrid API key, and other necessary environment variables.
+  
+## Usage
+
+1. Start the server:
+   ```bash
+   npm start
+
+2. Open your browser and navigate to http://localhost:3000
